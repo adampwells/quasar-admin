@@ -1,4 +1,27 @@
+import auth from '../auth'
+
 const routes = [
+  {
+    path: '/login',
+    beforeEnter() {
+      auth.auth.getSession()
+    }
+  },
+  {
+    path: "/login/oauth2/code/cognito",
+    beforeEnter(to, from, next) {
+      var currUrl = window.location.href
+      auth.auth.parseCognitoWebResponse(currUrl)
+    },
+  },
+  {
+    path: '/logout',
+    beforeEnter(to, from, next) {
+      auth.logout()
+      next()
+    },
+    component: () => import('pages/Logout.vue')
+  },
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
