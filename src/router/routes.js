@@ -14,72 +14,51 @@ const routes = [
       auth.auth.parseCognitoWebResponse(currUrl)
     },
   },
+  // {
+  //   path: '/logout',
+  //   beforeEnter(to, from, next) {
+  //     auth.logout()
+  //     next()
+  //   },
+  //   component: () => import('pages/Logout.vue')
+  // },
   {
-    path: '/logout',
-    beforeEnter(to, from, next) {
-      auth.logout()
-      next()
-    },
-    component: () => import('pages/Logout.vue')
+    path: '/secure',
+    component: () => import('layouts/SecureLayout.vue'),
+    children: [
+      {path: 'dashboard', component: () => import('pages/Dashboard.vue')},
+      {path: 'portfolio', component: () => import('pages/Portfolio.vue')},
+      {path: 'watch', component: () => import('pages/Watch.vue')},
+      {path: 'profile/user', component: () => import('pages/UserProfile.vue')},
+      {path: 'profile/company', component: () => import('pages/CompanyProfile.vue')},
+      {path: 'profile/ipaustralia', component: () => import('pages/IpAustralia.vue')},
+      {path: 'documents/assign', component: () => import('pages/LTAssign.vue')},
+      {path: 'documents/license', component: () => import('pages/LTLicense.vue')},
+      {path: 'documents/confidentiality', component: () => import('pages/LTConfidentiality.vue')},
+      {path: 'documents/cease', component: () => import('pages/LTCease.vue')},
+      {path: 'documents/defaults', component: () => import('pages/LTDefaults.vue')},
+      {path: 'calendar', component: () => import('pages/Calendar.vue')},
+    ]
   },
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/PublicLayout.vue'),
     children: [
-      {path: '', component: () => import('pages/Dashboard.vue')},
-      {path: '/Dashboard2', component: () => import('pages/Dashboard2.vue')},
-      {path: '/Profile', component: () => import('pages/UserProfile.vue')},
-      {path: '/Map', component: () => import('pages/Map.vue')},
-      {path: '/MapMarker', component: () => import('pages/MapMarker.vue')},
-      {path: '/TreeTable', component: () => import('pages/TreeTable.vue')},
-      {path: '/StreetView', component: () => import('pages/StreetView.vue')},
-      {path: '/Cards', component: () => import('pages/Cards.vue')},
-      {path: '/Tables', component: () => import('pages/Tables.vue')},
-      {path: '/Contact', component: () => import('pages/Contact.vue')},
-      {path: '/Checkout', component: () => import('pages/Checkout.vue')},
-      {path: '/Ecommerce', component: () => import('pages/ProductCatalogues.vue')},
-      {path: '/Pagination', component: () => import('pages/Pagination.vue')},
-      {path: '/Charts', component: () => import('pages/Charts.vue')},
-      {path: '/Calendar', component: () => import('pages/Calendar.vue')},
-      {path: '/Directory', component: () => import('pages/Directory.vue')},
-      {path: '/Footer', component: () => import('pages/Footer.vue')},
-      {path: '/CardHeader', component: () => import('pages/CardHeader.vue')},
-
-      // Not completed yet
-      // {path: '/Taskboard', component: () => import('pages/TaskBoard.vue')},
+      {path: '', component: () => import('pages/About.vue')},
+      {path: 'about', component: () => import('pages/About.vue')},
+      {path: 'pricing', component: () => import('pages/Pricing.vue')},
+      {path: 'signup', component: () => import('pages/Signup.vue')},
+      {
+        path: 'logout',
+        beforeEnter(to, from, next) {
+          auth.logout()
+          next()
+        },
+        component: () => import('pages/Logout.vue')
+      },
     ]
   },
 
-  // Always leave this as last one,
-  // but you can also remove it
-  {
-    path: '/:catchAll(.*)*',
-    component: () => import('pages/Error404.vue')
-  },
-  {
-    path: '/Mail',
-    component: () => import('layouts/Mail.vue')
-  },
-  {
-    path: '/Maintenance',
-    component: () => import('pages/Maintenance.vue')
-  },
-  {
-    path: '/Pricing',
-    component: () => import('pages/Pricing.vue')
-  },
-  {
-    path: '/Login-1',
-    component: () => import('pages/Login-1.vue')
-  },
-  {
-    path: '/Lock',
-    component: () => import('pages/LockScreen.vue')
-  },
-  {
-    path: '/Lock-2',
-    component: () => import('pages/LockScreen-2.vue')
-  }
 ]
 
 export default routes

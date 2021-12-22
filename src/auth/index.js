@@ -17,7 +17,7 @@ auth.userhandler = {
   onSuccess: function() {
     UserInfoStore.setLoggedIn(true)
     UserInfoApi.getUserInfo().then(() => {
-      router.push('/')
+      router.push('/secure/dashboard')
     })
   },
   onFailure: function(err) {

@@ -1,0 +1,235 @@
+<template>
+  <q-layout view="hHh lpR fFf">
+    <!--  <q-layout view="lHh Lpr lFf">-->
+    <q-header bordered>
+      <q-toolbar>
+        <q-btn
+          flat
+          dense
+          round
+          @click="toggleLeftDrawer"
+          icon="menu"
+          aria-label="Menu"
+        />
+        <q-toolbar-title>
+          Markster
+        </q-toolbar-title>
+        <q-space/>
+        <div class="q-gutter-sm row items-center no-wrap">
+          <q-btn round dense flat color="white" icon="alarm">
+            <q-badge color="red" text-color="white" floating>
+              5
+            </q-badge>
+            <q-menu
+            >
+              <q-list style="min-width: 100px">
+                <messages></messages>
+                <q-card class="text-center no-shadow no-border">
+                  <q-btn label="View All" style="max-width: 120px !important;" flat dense
+                         class="text-indigo-8"></q-btn>
+                </q-card>
+              </q-list>
+            </q-menu>
+          </q-btn>
+          <q-btn round dense flat color="white" icon="notifications">
+            <q-badge color="red" text-color="white" floating>
+              5
+            </q-badge>
+            <q-menu
+            >
+              <q-list style="min-width: 100px">
+                <messages></messages>
+                <q-card class="text-center no-shadow no-border">
+                  <q-btn label="View All" style="max-width: 120px !important;" flat dense
+                         class="text-indigo-8"></q-btn>
+                </q-card>
+              </q-list>
+            </q-menu>
+          </q-btn>
+          <q-item to="/logout" active-class="q-item-no-link-highlighting">
+            <q-item-section avatar>
+              <q-icon name="logout"/>
+            </q-item-section>
+            <q-tooltip>
+              logout
+            </q-tooltip>
+          </q-item>
+
+        </div>
+      </q-toolbar>
+    </q-header>
+
+    <q-drawer
+      v-model="leftDrawerOpen"
+      show-if-above
+      bordered
+      class="bg-primary text-white"
+    >
+      <q-list>
+        <q-item to="/secure/dashboard" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="dashboard"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Dashboard</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item to="/secure/portfolio" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="work_outline"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Portfolio</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item to="/secure/watch" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="policy"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Watch Lists</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-expansion-item
+          icon="gavel"
+          label="Legal Templates"
+        >
+          <q-list class="q-pl-lg">
+            <q-item to="/secure/documents/assign" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="description"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Assign Trade Mark</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item to="/secure/documents/license" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="description"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>License Trade Mark</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item to="/secure/documents/confidentiality" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="description"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Confidentiality Agreement</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item to="/secure/documents/cease" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="description"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Cease & Desist</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item to="/secure/documents/defaults" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="description"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Default Values</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-expansion-item>
+        <q-item to="/secure/calendar" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="date_range"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Calendar</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-expansion-item
+          icon="settings"
+          label="Settings"
+        >
+          <q-list class="q-pl-lg">
+            <q-item to="/secure/profile/user" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="manage_accounts"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Your Profile</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item to="/secure/profile/company" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="business"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Company Profile</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item to="/secure/profile/ipaustralia" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="home"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>IP Australia</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item to="/secure/profile/branddb" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="public"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Brand DB</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item to="/secure/profile/uk" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="public"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>United Kingdom</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-expansion-item>
+      </q-list>
+    </q-drawer>
+
+    <q-page-container class="bg-grey-2">
+      <router-view/>
+    </q-page-container>
+  </q-layout>
+</template>
+
+<script>
+import EssentialLink from 'components/EssentialLink.vue'
+
+import {defineComponent, ref} from 'vue'
+
+export default defineComponent({
+  name: 'MainLayout',
+
+  components: {
+    EssentialLink
+  },
+
+  setup() {
+    const leftDrawerOpen = ref(false)
+
+    return {
+      leftDrawerOpen,
+      toggleLeftDrawer() {
+        leftDrawerOpen.value = !leftDrawerOpen.value
+      }
+    }
+  },
+
+  data: function () {
+    return {
+      companyContext: 'Markster',
+      companies: ['Markster', 'Megaport']
+    }
+  }
+
+})
+</script>

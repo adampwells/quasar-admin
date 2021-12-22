@@ -4,22 +4,12 @@
   </q-page>
 </template>
 
-<script>import {
-  QCalendarMonth,
-  addToDate,
-  parseDate,
-  parseTimestamp,
-  today
-} from '@quasar/quasar-ui-qcalendar'
-import '@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass'
-import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
-import '@quasar/quasar-ui-qcalendar/src/QCalendarMonth.sass'
+<script>
+
 import {defineComponent} from 'vue'
 export default defineComponent({
-  name: 'Calendar',
-  components: {
-    QCalendarMonth
-  },
+  name: 'Logout',
+  components: {},
   data() {
     return {}
   }

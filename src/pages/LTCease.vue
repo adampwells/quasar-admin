@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-sm">
-    calendar
+    cease and desist
   </q-page>
 </template>
 
@@ -9,7 +9,7 @@ import {defineComponent} from 'vue'
 import {ref} from 'vue'
 
 export default defineComponent({
-  name: "Calendar",
+  name: "Cease",
   setup() {
     return {}
   },

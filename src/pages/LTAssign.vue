@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-sm">
-    calendar
+    assign trademark
   </q-page>
 </template>
 
@@ -9,7 +9,7 @@ import {defineComponent} from 'vue'
 import {ref} from 'vue'
 
 export default defineComponent({
-  name: "Calendar",
+  name: "Assign",
   setup() {
     return {}
   },

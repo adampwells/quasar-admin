@@ -29,13 +29,12 @@ const router = createRouter({
   history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
 })
 
-const publicRoutes = ['/login', '/login/oauth2/code/cognito', '/logout'] // Any paths that do not require authentication should go here
 router.beforeEach((to, from, next) => {
-  if (publicRoutes.indexOf(to.path) >= 0) {
+  if (to.path.startsWith("/secure")) {
+    requireAuth(to, from, next)
+  } else {
     next()
-    return
   }
-  requireAuth(to, from, next)
 })
 
 export default router
