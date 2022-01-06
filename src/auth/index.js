@@ -3,16 +3,23 @@ import router from '../router'
 import UserInfoStore from './user-info-store'
 import UserInfoApi from './user-info-api'
 
-var authData = {
+const authData = process.env.DEV ? {
   ClientId: '6f2q5e3mnth4a409hhp3q7e8m3',
   AppWebDomain: 'markster-web.auth.ap-southeast-2.amazoncognito.com',
   TokenScopesArray: ['openid', 'email'],
   RedirectUriSignIn: 'http://localhost:8080/login/oauth2/code/cognito',
   RedirectUriSignOut: 'http://localhost:8080/logout',
   UserPoolId: 'ap-southeast-2_dsv4zXtn8'
-}
+} : {
+  ClientId: '6f2q5e3mnth4a409hhp3q7e8m3',
+  AppWebDomain: 'markster-web.auth.ap-southeast-2.amazoncognito.com',
+  TokenScopesArray: ['openid', 'email'],
+  RedirectUriSignIn: 'https://saas.markster.com.au/login/oauth2/code/cognito',
+  RedirectUriSignOut: 'https://saas.markster.com.au/logout',
+  UserPoolId: 'ap-southeast-2_dsv4zXtn8'
+};
 
-var auth = new CognitoAuth(authData)
+const auth = new CognitoAuth(authData);
 auth.userhandler = {
   onSuccess: function() {
     UserInfoStore.setLoggedIn(true)
@@ -30,13 +37,13 @@ auth.userhandler = {
 }
 
 function getUserInfoStorageKey() {
-  var keyPrefix = 'CognitoIdentityServiceProvider.' + auth.getClientId()
-  var tokenUserName = auth.signInUserSession.getAccessToken().getUsername()
+  const keyPrefix = 'CognitoIdentityServiceProvider.' + auth.getClientId();
+  const tokenUserName = auth.signInUserSession.getAccessToken().getUsername();
   return keyPrefix + '.' + tokenUserName + '.userInfo'
 }
 
-var storageHelper = new StorageHelper()
-var storage = storageHelper.getStorage()
+const storageHelper = new StorageHelper();
+const storage = storageHelper.getStorage();
 export default {
   auth: auth,
   isUserSignedIn() {
