@@ -195,7 +195,9 @@
     </q-drawer>
 
     <q-page-container class="bg-grey-2">
-      <router-view/>
+      <keep-alive>
+        <router-view/>
+      </keep-alive>
     </q-page-container>
   </q-layout>
 </template>
