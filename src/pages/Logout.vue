@@ -1,6 +1,15 @@
 <template>
   <q-page class="q-pa-sm bg-white">
-    Logged out!
+    <div class="window-height window-width row justify-center items-center">
+      <q-card flat>
+        <q-card-section>
+          <div class="text-h6">
+            You are now logged out.
+          </div>
+        </q-card-section>
+      </q-card>
+    </div>
+
   </q-page>
 </template>
 

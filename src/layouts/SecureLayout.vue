@@ -65,7 +65,7 @@
       class="bg-primary text-white"
     >
       <q-list>
-        <q-item to="/secure/dashboard" active-class="q-item-no-link-highlighting">
+        <q-item to="/secure/dashboard" active-class="q-item-no-link-highlighting" @click="selectedNav = 'dashboard'" :focused="selectedNav === 'dashboard'">
           <q-item-section avatar>
             <q-icon name="dashboard"/>
           </q-item-section>
@@ -73,7 +73,7 @@
             <q-item-label>Dashboard</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item to="/secure/portfolio" active-class="q-item-no-link-highlighting">
+        <q-item to="/secure/portfolio" active-class="q-item-no-link-highlighting" @click="selectedNav = 'portfolio'" :focused="selectedNav === 'portfolio'">
           <q-item-section avatar>
             <q-icon name="work_outline"/>
           </q-item-section>
@@ -81,7 +81,7 @@
             <q-item-label>Portfolio</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item to="/secure/watch" active-class="q-item-no-link-highlighting">
+        <q-item to="/secure/watch" active-class="q-item-no-link-highlighting" @click="selectedNav = 'watch'" :focused="selectedNav === 'watch'">
           <q-item-section avatar>
             <q-icon name="policy"/>
           </q-item-section>
@@ -94,7 +94,7 @@
           label="Legal Templates"
         >
           <q-list class="q-pl-lg">
-            <q-item to="/secure/documents/assign" active-class="q-item-no-link-highlighting">
+            <q-item to="/secure/documents/assign" active-class="q-item-no-link-highlighting" @click="selectedNav = 'assign'" :focused="selectedNav === 'assign'">
               <q-item-section avatar>
                 <q-icon name="description"/>
               </q-item-section>
@@ -102,7 +102,7 @@
                 <q-item-label>Assign Trade Mark</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item to="/secure/documents/license" active-class="q-item-no-link-highlighting">
+            <q-item to="/secure/documents/license" active-class="q-item-no-link-highlighting" @click="selectedNav = 'license'" :focused="selectedNav === 'license'">
               <q-item-section avatar>
                 <q-icon name="description"/>
               </q-item-section>
@@ -110,7 +110,7 @@
                 <q-item-label>License Trade Mark</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item to="/secure/documents/confidentiality" active-class="q-item-no-link-highlighting">
+            <q-item to="/secure/documents/confidentiality" active-class="q-item-no-link-highlighting" @click="selectedNav = 'confidentiality'" :focused="selectedNav === 'confidentiality'">
               <q-item-section avatar>
                 <q-icon name="description"/>
               </q-item-section>
@@ -118,7 +118,7 @@
                 <q-item-label>Confidentiality Agreement</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item to="/secure/documents/cease" active-class="q-item-no-link-highlighting">
+            <q-item to="/secure/documents/cease" active-class="q-item-no-link-highlighting" @click="selectedNav = 'cease'" :focused="selectedNav === 'cease'">
               <q-item-section avatar>
                 <q-icon name="description"/>
               </q-item-section>
@@ -126,7 +126,7 @@
                 <q-item-label>Cease & Desist</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item to="/secure/documents/defaults" active-class="q-item-no-link-highlighting">
+            <q-item to="/secure/documents/defaults" active-class="q-item-no-link-highlighting" @click="selectedNav = 'defaults'" :focused="selectedNav === 'defaults'">
               <q-item-section avatar>
                 <q-icon name="description"/>
               </q-item-section>
@@ -136,7 +136,7 @@
             </q-item>
           </q-list>
         </q-expansion-item>
-        <q-item to="/secure/calendar" active-class="q-item-no-link-highlighting">
+        <q-item to="/secure/calendar" active-class="q-item-no-link-highlighting" @click="selectedNav = 'calendar'" :focused="selectedNav === 'calendar'">
           <q-item-section avatar>
             <q-icon name="date_range"/>
           </q-item-section>
@@ -149,7 +149,7 @@
           label="Settings"
         >
           <q-list class="q-pl-lg">
-            <q-item to="/secure/profile/user" active-class="q-item-no-link-highlighting">
+            <q-item to="/secure/profile/user" active-class="q-item-no-link-highlighting" @click="selectedNav = 'user'" :focused="selectedNav === 'user'">
               <q-item-section avatar>
                 <q-icon name="manage_accounts"/>
               </q-item-section>
@@ -157,7 +157,7 @@
                 <q-item-label>Your Profile</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item to="/secure/profile/company" active-class="q-item-no-link-highlighting">
+            <q-item to="/secure/profile/company" active-class="q-item-no-link-highlighting" @click="selectedNav = 'company'" :focused="selectedNav === 'company'">
               <q-item-section avatar>
                 <q-icon name="business"/>
               </q-item-section>
@@ -165,7 +165,7 @@
                 <q-item-label>Company Profile</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item to="/secure/profile/ipaustralia" active-class="q-item-no-link-highlighting">
+            <q-item to="/secure/profile/ipaustralia" active-class="q-item-no-link-highlighting" @click="selectedNav = 'ipaustralia'" :focused="selectedNav === 'ipaustralia'">
               <q-item-section avatar>
                 <q-icon name="home"/>
               </q-item-section>
@@ -173,7 +173,7 @@
                 <q-item-label>IP Australia</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item to="/secure/profile/branddb" active-class="q-item-no-link-highlighting">
+            <q-item to="/secure/profile/branddb" active-class="q-item-no-link-highlighting" @click="selectedNav = 'branddb'" :focused="selectedNav === 'branddb'">
               <q-item-section avatar>
                 <q-icon name="public"/>
               </q-item-section>
@@ -181,7 +181,7 @@
                 <q-item-label>Brand DB</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item to="/secure/profile/uk" active-class="q-item-no-link-highlighting">
+            <q-item to="/secure/profile/uk" active-class="q-item-no-link-highlighting" @click="selectedNav = 'uk'" :focused="selectedNav === 'uk'">
               <q-item-section avatar>
                 <q-icon name="public"/>
               </q-item-section>
@@ -227,6 +227,7 @@ export default defineComponent({
 
   data: function () {
     return {
+      selectedNav: 'dashboard',
       companyContext: 'Markster',
       companies: ['Markster', 'Megaport']
     }

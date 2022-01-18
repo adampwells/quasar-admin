@@ -1,6 +1,6 @@
 <template>
-  <q-page class="q-pa-sm">
-    signup
+  <q-page padding>
+    United Kingdom
   </q-page>
 </template>
 
@@ -9,11 +9,17 @@ import {defineComponent} from 'vue'
 import {ref} from 'vue'
 
 export default defineComponent({
-  name: "Signup",
+  name: "Uk",
   setup() {
     return {}
   },
   mounted() {},
+  data: function () {
+    return {
+      search:'',
+      results:['Megaport (Services) Pty Ltd', 'Megaport Pty Ltd']
+    }
+  }
 })
 </script>
 
