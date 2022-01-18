@@ -96,7 +96,7 @@
           <q-list class="q-pl-lg">
             <q-item to="/secure/documents/assign" active-class="q-item-no-link-highlighting" @click="selectedNav = 'assign'" :focused="selectedNav === 'assign'">
               <q-item-section avatar>
-                <q-icon name="description"/>
+                <q-icon name="login"/>
               </q-item-section>
               <q-item-section>
                 <q-item-label>Assign Trade Mark</q-item-label>
@@ -104,7 +104,7 @@
             </q-item>
             <q-item to="/secure/documents/license" active-class="q-item-no-link-highlighting" @click="selectedNav = 'license'" :focused="selectedNav === 'license'">
               <q-item-section avatar>
-                <q-icon name="description"/>
+                <q-icon name="ios_share"/>
               </q-item-section>
               <q-item-section>
                 <q-item-label>License Trade Mark</q-item-label>
@@ -112,7 +112,7 @@
             </q-item>
             <q-item to="/secure/documents/confidentiality" active-class="q-item-no-link-highlighting" @click="selectedNav = 'confidentiality'" :focused="selectedNav === 'confidentiality'">
               <q-item-section avatar>
-                <q-icon name="description"/>
+                <q-icon name="lock"/>
               </q-item-section>
               <q-item-section>
                 <q-item-label>Confidentiality Agreement</q-item-label>
@@ -120,7 +120,7 @@
             </q-item>
             <q-item to="/secure/documents/cease" active-class="q-item-no-link-highlighting" @click="selectedNav = 'cease'" :focused="selectedNav === 'cease'">
               <q-item-section avatar>
-                <q-icon name="description"/>
+                <q-icon name="close"/>
               </q-item-section>
               <q-item-section>
                 <q-item-label>Cease & Desist</q-item-label>
@@ -128,7 +128,7 @@
             </q-item>
             <q-item to="/secure/documents/defaults" active-class="q-item-no-link-highlighting" @click="selectedNav = 'defaults'" :focused="selectedNav === 'defaults'">
               <q-item-section avatar>
-                <q-icon name="description"/>
+                <q-icon name="tune"/>
               </q-item-section>
               <q-item-section>
                 <q-item-label>Default Values</q-item-label>
