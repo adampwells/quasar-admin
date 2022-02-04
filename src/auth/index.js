@@ -23,8 +23,12 @@ const auth = new CognitoAuth(authData);
 auth.userhandler = {
   onSuccess: function() {
     UserInfoStore.setLoggedIn(true)
-    UserInfoApi.getUserInfo().then(() => {
-      router.push('/secure/dashboard')
+    UserInfoApi.getMarksterInfo().then((result) => {
+      console.log('got markster info: ' + result)
+      UserInfoStore.setMarksterInfo(result.data)
+      UserInfoApi.getUserInfo().then(() => {
+        router.push('/secure/dashboard')
+      })
     })
   },
   onFailure: function(err) {
@@ -63,5 +67,11 @@ export default {
   getUserInfoStorageKey,
   getUserInfo() {
     return UserInfoApi.getUserInfo()
+  },
+  getMarksterInfo() {
+    return UserInfoApi.getMarksterInfo()
+  },
+  getMarksterData() {
+    return UserInfoStore.getMarksterInfo()
   }
 }

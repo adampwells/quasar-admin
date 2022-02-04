@@ -7,13 +7,17 @@
 <script>
 import {defineComponent} from 'vue'
 import {ref} from 'vue'
-
 export default defineComponent({
   name: "Dashboard",
   setup() {
     return {}
   },
-  mounted() {},
+  data() {
+    return {
+    }
+  },
+  mounted() {
+  },
 })
 </script>
 

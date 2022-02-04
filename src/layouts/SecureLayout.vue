@@ -204,6 +204,7 @@
 
 <script>
 import EssentialLink from 'components/EssentialLink.vue'
+import auth from '../auth'
 
 import {defineComponent, ref} from 'vue'
 
@@ -229,8 +230,13 @@ export default defineComponent({
     return {
       selectedNav: 'dashboard',
       companyContext: 'Markster',
-      companies: ['Markster', 'Megaport']
+      companies: ['Markster', 'Megaport'],
+      userInfo: {},
     }
+  },
+
+  mounted() {
+    this.userInfo = auth.getMarksterData()
   }
 
 })

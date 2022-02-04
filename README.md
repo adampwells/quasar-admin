@@ -1,3 +1,64 @@
+# Spice DB
+
+RBAC Spicedb
+https://play.authzed.com/schema
+
+```shell
+definition user {}
+
+definition ipgroup {
+	relation reader: user
+	relation writer: user
+}
+
+definition ipitem {
+	relation ipgroup: ipgroup
+	permission read = ipgroup->reader
+	permission write = ipgroup->writer
+}
+
+definition team {
+	relation member: user
+}
+
+definition company {
+	relation admin_team: team
+	relation end_user_team: team
+	relation external_team: team
+	permission admin = admin_team->member
+	permission end_user = end_user_team->member
+	permission external = external_team->member
+}
+```
+
+```shell
+ipgroup:somegroup#reader@user:1
+ipgroup:somegroup#writer@user:1
+ipitem:mymark#ipgroup@ipgroup:somegroup
+team:admin#member@user:1
+team:external#member@user:2
+company:markster#admin_team@team:admin
+company:markster#external_team@team:external
+```
+
+```shell
+assertTrue:
+  - ipitem:mymark#read@user:1
+  - company:markster#admin@user:1
+assertFalse:
+  - company:markster#admin@user:2
+
+```
+Local install
+
+```shell
+brew install authzed/tap/spicedb
+spicedb migrate head --datastore-engine postgres --datastore-conn-uri "postgres://spicedb:spicedb@localhost:5432/spicedb?sslmode=disable"
+spicedb serve --grpc-no-tls --grpc-preshared-key a4a01703-dc9c-4dc9-826c-83b3b8b4ce28 --datastore-engine postgres --datastore-conn-uri "postgres://spicedb:spicedb@localhost:5432/spicedb?sslmode=disable"
+brew install authzed/tap/zed
+zed context set first-dev-context :50051 "a4a01703-dc9c-4dc9-826c-83b3b8b4ce28" --insecure
+```
+
 # Cloudflare Pages
 
 set up vue-tour

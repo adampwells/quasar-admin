@@ -4,6 +4,7 @@ import routes from './routes'
 import auth from '../auth'
 import UserInfoStore from '../auth/user-info-store'
 import UserInfoApi from '../auth/user-info-api'
+import userInfoStore from "../auth/user-info-store";
 
 
 /*
@@ -51,7 +52,10 @@ function requireAuth(to, from, next) {
     UserInfoApi.getUserInfo().then(response => {
       UserInfoStore.setLoggedIn(true)
       UserInfoStore.setCognitoInfo(response)
-      next()
+      UserInfoApi.getMarksterInfo().then((resp) => {
+        userInfoStore.setMarksterInfo(resp.data)
+        next()
+      })
     })
   }
 }
