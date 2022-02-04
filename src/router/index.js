@@ -21,7 +21,7 @@ const createHistory = process.env.MODE === 'ssr'
   : process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory
 
 const router = createRouter({
-  scrollBehavior: () => ({ left: 0, top: 0 }),
+  scrollBehavior: () => ({left: 0, top: 0}),
   routes,
 
   // Leave this as is and make changes in quasar.conf.js instead!
@@ -46,16 +46,13 @@ function requireAuth(to, from, next) {
     auth.auth.getSession()
     next({
       path: '/login',
-      query: { redirect: to.fullPath }
+      query: {redirect: to.fullPath}
     })
   } else {
-    UserInfoApi.getUserInfo().then(response => {
-      UserInfoStore.setLoggedIn(true)
-      UserInfoStore.setCognitoInfo(response)
-      UserInfoApi.getMarksterInfo().then((resp) => {
-        userInfoStore.setMarksterInfo(resp.data)
-        next()
-      })
+    UserInfoStore.setLoggedIn(true)
+    UserInfoApi.getMarksterInfo().then((resp) => {
+      userInfoStore.setMarksterInfo(resp.data)
+      next()
     })
   }
 }

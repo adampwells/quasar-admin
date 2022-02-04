@@ -27,6 +27,7 @@ const routes = [
     component: () => import('layouts/SecureLayout.vue'),
     children: [
       {path: 'dashboard', component: () => import('pages/Dashboard.vue')},
+      {path: 'admin', component: () => import('pages/Admin.vue')},
       {path: 'portfolio', component: () => import('pages/Portfolio.vue')},
       {path: 'watch', component: () => import('pages/Watch.vue')},
       {path: 'profile/user', component: () => import('pages/settings/UserProfile.vue')},

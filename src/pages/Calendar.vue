@@ -207,10 +207,10 @@ export default defineComponent({
   },
   methods: {
     updateTitle () {
-      const myDate = QCalendar.makeDate(this.start)
-      if (this.dateFormatter !== undefined) {
-        this.title = this.dateFormatter.format(myDate)
-      }
+      // const myDate = QCalendar.makeDate(this.start)
+      // if (this.dateFormatter !== undefined) {
+      //   this.title = this.dateFormatter.format(myDate)
+      // }
     },
     badgeClasses(event, type) {
       return {

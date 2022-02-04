@@ -12,7 +12,7 @@
           aria-label="Menu"
         />
         <q-toolbar-title>
-          Markster
+          <div class="text-weight-light">Markster</div>
         </q-toolbar-title>
         <q-space/>
         <div class="q-gutter-sm row items-center no-wrap">
@@ -65,6 +65,14 @@
       class="bg-primary text-white"
     >
       <q-list>
+        <q-item v-if="hasAdminPermission" to="/secure/admin" active-class="q-item-no-link-highlighting" @click="selectedNav = 'admin'" :focused="selectedNav === 'admin'">
+          <q-item-section avatar>
+            <q-icon name="admin_panel_settings"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Markster Admin</q-item-label>
+          </q-item-section>
+        </q-item>
         <q-item to="/secure/dashboard" active-class="q-item-no-link-highlighting" @click="selectedNav = 'dashboard'" :focused="selectedNav === 'dashboard'">
           <q-item-section avatar>
             <q-icon name="dashboard"/>
@@ -157,7 +165,7 @@
                 <q-item-label>Your Profile</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item to="/secure/profile/company" active-class="q-item-no-link-highlighting" @click="selectedNav = 'company'" :focused="selectedNav === 'company'">
+            <q-item v-if="hasAdminPermission" to="/secure/profile/company" active-class="q-item-no-link-highlighting" @click="selectedNav = 'company'" :focused="selectedNav === 'company'">
               <q-item-section avatar>
                 <q-icon name="business"/>
               </q-item-section>
@@ -165,7 +173,7 @@
                 <q-item-label>Company Profile</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item to="/secure/profile/ipaustralia" active-class="q-item-no-link-highlighting" @click="selectedNav = 'ipaustralia'" :focused="selectedNav === 'ipaustralia'">
+            <q-item v-if="hasAdminPermission" to="/secure/profile/ipaustralia" active-class="q-item-no-link-highlighting" @click="selectedNav = 'ipaustralia'" :focused="selectedNav === 'ipaustralia'">
               <q-item-section avatar>
                 <q-icon name="home"/>
               </q-item-section>
@@ -173,7 +181,7 @@
                 <q-item-label>IP Australia</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item to="/secure/profile/branddb" active-class="q-item-no-link-highlighting" @click="selectedNav = 'branddb'" :focused="selectedNav === 'branddb'">
+            <q-item v-if="hasAdminPermission" to="/secure/profile/branddb" active-class="q-item-no-link-highlighting" @click="selectedNav = 'branddb'" :focused="selectedNav === 'branddb'">
               <q-item-section avatar>
                 <q-icon name="public"/>
               </q-item-section>
@@ -181,7 +189,7 @@
                 <q-item-label>Brand DB</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item to="/secure/profile/uk" active-class="q-item-no-link-highlighting" @click="selectedNav = 'uk'" :focused="selectedNav === 'uk'">
+            <q-item v-if="hasAdminPermission" to="/secure/profile/uk" active-class="q-item-no-link-highlighting" @click="selectedNav = 'uk'" :focused="selectedNav === 'uk'">
               <q-item-section avatar>
                 <q-icon name="public"/>
               </q-item-section>
@@ -231,13 +239,24 @@ export default defineComponent({
       selectedNav: 'dashboard',
       companyContext: 'Markster',
       companies: ['Markster', 'Megaport'],
-      userInfo: {},
+      userInfo: {
+        permission:[]
+      },
+      hasPreviewPermission: false,
+      hasAdminPermission: false,
     }
   },
 
   mounted() {
     this.userInfo = auth.getMarksterData()
+    if (this.userInfo.permissions.includes('preview')) this.hasPreviewPermission = true;
+    if (this.userInfo.permissions.includes('admin')) this.hasAdminPermission = true;
   }
 
 })
 </script>
+<style scoped>
+q-item-label {
+  font-weight: lighter;
+}
+</style>

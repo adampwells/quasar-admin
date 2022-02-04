@@ -21,21 +21,19 @@ const authData = process.env.DEV ? {
 
 const auth = new CognitoAuth(authData);
 auth.userhandler = {
-  onSuccess: function() {
+  onSuccess: function () {
     UserInfoStore.setLoggedIn(true)
     UserInfoApi.getMarksterInfo().then((result) => {
       console.log('got markster info: ' + result)
       UserInfoStore.setMarksterInfo(result.data)
-      UserInfoApi.getUserInfo().then(() => {
-        router.push('/secure/dashboard')
-      })
+      router.push('/secure/dashboard')
     })
   },
-  onFailure: function(err) {
+  onFailure: function (err) {
     UserInfoStore.setLoggedOut()
     router.go({
       path: '/error',
-      query: { message: 'Login failed due to ' + err }
+      query: {message: 'Login failed due to ' + err}
     })
   }
 }
@@ -65,9 +63,6 @@ export default {
     }
   },
   getUserInfoStorageKey,
-  getUserInfo() {
-    return UserInfoApi.getUserInfo()
-  },
   getMarksterInfo() {
     return UserInfoApi.getMarksterInfo()
   },

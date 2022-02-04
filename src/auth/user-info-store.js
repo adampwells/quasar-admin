@@ -1,5 +1,4 @@
 var state = {
-  cognitoInfo: {},
   marksterInfo: {},
   loggedIn: false,
   loadingState: true,
@@ -15,12 +14,7 @@ function setLoggedOut() {
   state.cognitoInfo = {};
 }
 
-function setCognitoInfo(newValue){
-  state.cognitoInfo = newValue;
-}
-
 function setMarksterInfo(newValue){
-  console.log(`setting marksterInfor in store ${newValue}`)
   state.marksterInfo = newValue;
 }
 
@@ -32,7 +26,6 @@ export default {
   state: state,
   setLoggedIn: setLoggedIn,
   setLoggedOut: setLoggedOut,
-  setCognitoInfo: setCognitoInfo,
   setMarksterInfo: setMarksterInfo,
   getMarksterInfo: getMarksterInfo,
 }
