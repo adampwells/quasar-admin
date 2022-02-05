@@ -28,10 +28,19 @@ const routes = [
     children: [
       {path: 'dashboard', component: () => import('pages/Dashboard.vue')},
       {path: 'admin', component: () => import('pages/Admin.vue')},
+
+      // admin
+      {path: 'admin/userprofile', component: () => import('pages/admin/UserProfile.vue')},
+      {path: 'admin/companyprofile', component: () => import('pages/admin/CompanyProfile.vue')},
+      {path: 'admin/external', component: () => import('pages/admin/External.vue')},
+      {path: 'admin/users', component: () => import('pages/admin/Users.vue')},
+      {path: 'admin/roles', component: () => import('pages/admin/Roles.vue')},
+      {path: 'admin/ipgroups', component: () => import('pages/admin/IpGroups.vue')},
+
       {path: 'portfolio', component: () => import('pages/Portfolio.vue')},
       {path: 'watch', component: () => import('pages/Watch.vue')},
-      {path: 'profile/user', component: () => import('pages/settings/UserProfile.vue')},
-      {path: 'profile/company', component: () => import('pages/settings/CompanyProfile.vue')},
+      {path: 'profile/user', component: () => import('pages/admin/UserProfile.vue')},
+      {path: 'profile/company', component: () => import('pages/admin/CompanyProfile.vue')},
       {path: 'profile/ipaustralia', component: () => import('pages/settings/IpAustralia.vue')},
       {path: 'profile/branddb', component: () => import('pages/settings/BrandDb.vue')},
       {path: 'profile/uk', component: () => import('pages/settings/Uk.vue')},

@@ -199,6 +199,61 @@
             </q-item>
           </q-list>
         </q-expansion-item>
+        <q-expansion-item
+          icon="admin_panel_settings"
+          label="Admin"
+        >
+          <q-list class="q-pl-lg">
+            <q-item to="/secure/admin/userprofile" active-class="q-item-no-link-highlighting" @click="selectedNav = 'userprofile'" :focused="selectedNav === 'userprofile'">
+              <q-item-section avatar>
+                <q-icon name="manage_accounts"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Your Profile</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item v-if="hasAdminPermission" to="/secure/admin/companyprofile" active-class="q-item-no-link-highlighting" @click="selectedNav = 'companyprofile'" :focused="selectedNav === 'companyprofile'">
+              <q-item-section avatar>
+                <q-icon name="business"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Company Profile</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item v-if="hasAdminPermission" to="/secure/admin/users" active-class="q-item-no-link-highlighting" @click="selectedNav = 'adminusers'" :focused="selectedNav === 'adminusers'">
+              <q-item-section avatar>
+                <q-icon name="people"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Users</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item v-if="hasAdminPermission" to="/secure/admin/roles" active-class="q-item-no-link-highlighting" @click="selectedNav = 'admin/roles'" :focused="selectedNav === 'admin/roles'">
+              <q-item-section avatar>
+                <q-icon name="lock"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Roles</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item v-if="hasAdminPermission" to="/secure/admin/ipgroups" active-class="q-item-no-link-highlighting" @click="selectedNav = 'admin/ipgroups'" :focused="selectedNav === 'admin/ipgroups'">
+              <q-item-section avatar>
+                <q-icon name="folder"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>IP Groups</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item v-if="hasAdminPermission" to="/secure/admin/external" active-class="q-item-no-link-highlighting" @click="selectedNav = 'admin/external'" :focused="selectedNav === 'admin/external'">
+              <q-item-section avatar>
+                <q-icon name="person_add"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>External Users</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-expansion-item>
       </q-list>
     </q-drawer>
 

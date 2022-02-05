@@ -1,33 +1,37 @@
 <template>
   <q-page class="q-pa-sm">
-    Markster Admin
-    {{apimessage}}
+    <q-card flat bordered>
+      <q-card-section>
+        <div class="text-weight-light text-h6">Roles</div>
+
+      </q-card-section>
+    </q-card>
   </q-page>
 </template>
 
 <script>
 import {defineComponent} from 'vue'
-import {useQuasar} from 'quasar'
 import {ref} from 'vue'
-import companyApi from '../api/company'
+import {useQuasar} from 'quasar'
+import companyApi from "src/api/company";
+
 export default defineComponent({
-  name: "MarksterAdmin",
+  name: "Roles",
   setup() {
     const $q = useQuasar()
     return {}
   },
-  data() {
+  data(){
     return {
-      companies: [],
-      apimessage:''
+      roles:[]
     }
   },
   methods: {
-    findAllCompanies() {
+    findRolesByCompanyContext(){
       let self = this
       self.$q.loading.show()
-      companyApi.findAllCompanies().then((result) => {
-        self.companies = result.data.data
+      companyApi.findRolesByCompanyContext().then((result) => {
+        self.roles = result.data.data
       }).catch((error) => {
         self.$q.notify({
           message: error.message,
@@ -38,7 +42,7 @@ export default defineComponent({
     }
   },
   mounted() {
-    this.findAllCompanies()
+    this.findRolesByCompanyContext()
   },
 })
 </script>
