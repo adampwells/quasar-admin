@@ -188,13 +188,14 @@
               owned by your company.
             </div>
             <br>
-              <div id="payment-element">
-                <!-- Elements will create form elements here -->
-              </div>
-              <q-btn @click="confirmSetup">Submit</q-btn>
-              <div id="error-message">
-                <!-- Display error message to your customers here -->
-              </div>
+            <div ref="card" class="q-mt-lg stripeElement"/>
+            <div
+              v-if="stripeError"
+              class="q-pa-sm text-accent"
+              v-html="stripeError"
+            />
+            <br>
+            <q-btn @click="registerCard">Register Card</q-btn>
           </q-step>
 
           <q-step
@@ -226,6 +227,7 @@ import {ref} from 'vue'
 import stripeApi from '../../api/stripe'
 import {loadStripe} from '@stripe/stripe-js'
 
+
 export default defineComponent({
   name: "Signup",
   components: {},
@@ -237,8 +239,12 @@ export default defineComponent({
   data() {
     return {
       clientSecret: '',
-      elements:{},
-      stripe:{},
+      elements: undefined,
+      stripe: undefined,
+      card: undefined,
+      stripeEvent: undefined,
+      stripeError: '',
+      stripeToken: undefined,
       publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
       states: [
         'ACT',
@@ -276,9 +282,9 @@ export default defineComponent({
       },
     }
   },
-  created() {},
-  mounted() {
-    let self = this
+  created() {
+  },
+  async mounted() {
     stripeApi.findClientSecret().then((resp) => {
       self.clientSecret = resp.data.data.clientSecret
     })
@@ -286,30 +292,49 @@ export default defineComponent({
   methods: {
     checkView(newView, oldView) {
       console.log(`new ${newView} old ${oldView}`)
-      if (this.step == 5) {
+      if (this.step === 5) {
         this.setupStripe()
       }
     },
     async setupStripe() {
       let self = this
-      const options = {
-        clientSecret: self.clientSecret,
-      };
-      loadStripe(process.env.STRIPE_PUBLISHABLE_KEY).then((stripe) => {
-        self.stripe = stripe
-        self.elements = self.stripe.elements(options);
-        const paymentElement = self.elements.create('payment');
-        paymentElement.mount('#payment-element');
+      self.stripe = await loadStripe(process.env.STRIPE_PUBLISHABLE_KEY)
+      self.elements = self.stripe.elements()
+      self.card = self.elements.create('card')
+      self.card.mount(this.$refs.card)
+      self.card.on('change', function (event) {
+        self.stripeEvent = !event.empty
       })
     },
-    async confirmSetup(){
+    async registerCard() {
       let self = this
-      const {error} = await self.stripe.confirmSetup({
-        elements: self.elements,
-        confirmParams: {
-          return_url: 'http://localhost:8082/signup',
+      if (self.stripeEvent) {
+
+        self.stripeError = null
+        const stripePm = await self.stripe.createPaymentMethod({
+          type: 'card',
+          card: self.card,
+          billing_details: {
+            name: self.reg.administrator.first_name,
+            email: self.reg.administrator.email,
+            phone: self.reg.administrator.phone,
+            address: {
+              line1: self.reg.company.address1 + ' ' + self.reg.company.address2 + ' ' + self.reg.company.suburb
+            }
+          }
+        })
+
+        if (stripePm?.error?.message) {
+          self.stripeError = stripePm.error.message
+          return
         }
-      });
+
+        self.stripeToken = stripePm?.paymentMethod?.id
+        self.$q.notify({
+          message: 'Card registered successfully.',
+          color: 'green-3'
+        })
+      }
     },
     removeItem(item) {
       this.reg.ip_australia_names.splice(this.reg.ip_australia_names.indexOf(item), 1)

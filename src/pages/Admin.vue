@@ -7,13 +7,11 @@
 
 <script>
 import {defineComponent} from 'vue'
-import {useQuasar} from 'quasar'
 import {ref} from 'vue'
 import companyApi from '../api/company'
 export default defineComponent({
   name: "MarksterAdmin",
   setup() {
-    const $q = useQuasar()
     return {}
   },
   data() {
