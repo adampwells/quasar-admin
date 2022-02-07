@@ -8,6 +8,7 @@
           ref="stepper"
           color="primary"
           animated
+          @transition="checkView"
         >
           <q-step
             :name="1"
@@ -15,8 +16,38 @@
             icon="shopping_cart"
             active-icon="shopping_cart"
             :done="step > 1"
+            style="height: 400px"
           >
-            CHoose a plan
+            <q-list>
+              <q-item tag="label" v-ripple>
+                <q-item-section avatar>
+                  <q-radio v-model="reg.plan" val="plan1"/>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Free Tier</q-item-label>
+                  <q-item-label caption>Free forever in the Australian market.</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item tag="label" v-ripple>
+                <q-item-section avatar>
+                  <q-radio v-model="reg.plan" val="plan2"/>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Australia Unlimited</q-item-label>
+                  <q-item-label caption>Manage any number of trade marks registered with IP Australia.</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item tag="label" v-ripple>
+                <q-item-section avatar>
+                  <q-radio v-model="reg.plan" val="plan3"/>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>World Conquest</q-item-label>
+                  <q-item-label caption>We help manage the messiness that is the international IP scene.</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+
           </q-step>
 
           <q-step
@@ -25,18 +56,80 @@
             icon="business"
             active-icon="business"
             :done="step > 2"
+            style="height: 400px"
           >
-            An ad group contains one or more ads which target a shared set of keywords.
+            <div class="row q-col-gutter-md">
+              <div class="col-3">
+                <q-input v-model="reg.company.name" label="Company Name" outlined/>
+              </div>
+              <div class="col-3">
+                <q-input v-model="reg.company.acn_arbn" label="ACN/ARBN" outlined/>
+              </div>
+              <div class="col-3">
+                <q-input v-model="reg.company.email" label="Email" outlined/>
+              </div>
+              <div class="col-3">
+                <q-input v-model="reg.company.web" label="Web" outlined/>
+              </div>
+            </div>
+            <br/>
+            <div class="row q-col-gutter-md">
+              <div class="col-6">
+                <q-input v-model="reg.company.address1" label="Address 1" outlined/>
+              </div>
+              <div class="col-6">
+                <q-input v-model="reg.company.address2" label="Address 2" outlined/>
+              </div>
+            </div>
+            <br/>
+            <div class="row q-col-gutter-md">
+              <div class="col-3">
+                <q-input v-model="reg.company.suburb" label="Town" outlined/>
+              </div>
+              <div class="col-3">
+                <q-select v-model="reg.company.state" :options="states" label="State" outlined/>
+              </div>
+              <div class="col-3">
+                <q-input v-model="reg.company.postcode" label="Postcode" outlined/>
+              </div>
+              <div class="col-3">
+                <q-input v-model="reg.company.phone" label="Phone" outlined/>
+              </div>
+            </div>
           </q-step>
 
           <q-step
             :name="3"
-            title="People"
+            title="Company Admin"
             icon="people"
             active-icon="people"
             :done="step > 3"
+            style="height: 400px"
           >
-            An ad group contains one or more ads which target a shared set of keywords.
+            <div class="text-body2 text-weight-light">The administrator user can create other users who can login to
+              Marketer.
+            </div>
+            <div class="text-body2 text-weight-light">We will email you a temporary password which you will need to
+              reset to complete the registration process.
+            </div>
+            <br>
+            <div class="row q-col-gutter-md justify-around">
+              <div class="col-4">
+                <q-input v-model="reg.administrator.first_name" label="First Name" outlined/>
+              </div>
+              <div class="col-4">
+                <q-input v-model="reg.administrator.last_name" label="Last Name" outlined/>
+              </div>
+            </div>
+            <br>
+            <div class="row q-col-gutter-md justify-around">
+              <div class="col-4">
+                <q-input v-model="reg.administrator.email" label="Email" outlined/>
+              </div>
+              <div class="col-4">
+                <q-input v-model="reg.administrator.phone" label="Phone" outlined/>
+              </div>
+            </div>
           </q-step>
 
 
@@ -45,25 +138,67 @@
             title="IP Australia Setup"
             icon="tune"
             active-icon="tune"
+            :done="step > 4"
+            style="height: 400px"
           >
-            Try out different ad text to see what brings in the most customers, and learn how to
-            enhance your ads using features like ad extensions. If you run into any problems with
-            your ads, find out how to tell if they're running and how to resolve approval issues.
+            <div class="text-body2 text-weight-light">
+              Markster integrates with IP Australia to automate searches and other actions on your behalf. We identify
+              trademarks based on the registered owner of the given mark. It is common to have several different owner
+              names in the IP Australia database, so you should record all of the names you are known by in IP
+              Australia.
+            </div>
+            <br>
+            <div class="row q-col-gutter-md">
+              <div class="col-4">
+                <q-input v-model="ip_australia_name" label="Company Name"/>
+              </div>
+              <div class="col-2">
+                <q-btn round icon="add"
+                       @click="reg.ip_australia_names.push(ip_australia_name); ip_australia_name = ''"/>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <q-list bordered separator>
+                <q-item v-for="n in reg.ip_australia_names">
+                  <q-item-section>{{ n }}</q-item-section>
+                  <q-item-section side>
+                    <q-btn round icon="remove" @click="removeItem(n)" v-ripple/>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </div>
           </q-step>
 
           <q-step
-            :name="4"
+            :name="5"
             title="Payment"
             icon="payment"
             active-icon="payment"
+            :done="step > 5"
+            style="height: 400px"
           >
-            Try out different ad text to see what brings in the most customers, and learn how to
-            enhance your ads using features like ad extensions. If you run into any problems with
-            your ads, find out how to tell if they're running and how to resolve approval issues.
+            <div class="text-body2 text-weight-light">
+              We use Stripe for payment processing. We do not store credit card details at all on our infrastructure -
+              not even transiently in server memory.
+            </div>
+            <br>
+            <div class="text-body2 text-weight-light">
+              We will process you credit card on the monthly anniversary of signup for the number of active trademarks
+              owned by your company.
+            </div>
+            <br>
+              <div id="payment-element">
+                <!-- Elements will create form elements here -->
+              </div>
+              <q-btn @click="confirmSetup">Submit</q-btn>
+              <div id="error-message">
+                <!-- Display error message to your customers here -->
+              </div>
           </q-step>
 
           <q-step
-            :name="4"
+            :name="6"
             title="Orientation"
             icon="explore"
           >
@@ -74,8 +209,9 @@
 
           <template v-slot:navigation>
             <q-stepper-navigation>
-              <q-btn @click="$refs.stepper.next()" color="primary" :label="step === 4 ? 'Finish' : 'Continue'" />
-              <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back" class="q-ml-sm" />
+              <q-btn @click="$refs.stepper.next()" color="primary" :label="step === 5 ? 'Finish' : 'Continue'"/>
+              <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back"
+                     class="q-ml-sm"/>
             </q-stepper-navigation>
           </template>
         </q-stepper>
@@ -87,18 +223,103 @@
 <script>
 import {defineComponent} from 'vue'
 import {ref} from 'vue'
+import stripeApi from '../../api/stripe'
+import {loadStripe} from '@stripe/stripe-js'
 
 export default defineComponent({
   name: "Signup",
+  components: {},
   setup() {
     return {
-      step: ref(1)
+      step: ref(1),
     }
   },
-  mounted() {},
+  data() {
+    return {
+      clientSecret: '',
+      elements:{},
+      stripe:{},
+      publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+      states: [
+        'ACT',
+        'NSW',
+        'NT',
+        'QLD',
+        'SA',
+        'TAS',
+        'VIC',
+        'WA',
+      ],
+      ip_australia_name: '',
+      reg: {
+        company: {
+          name: '',
+          email: '',
+          phone: '+61',
+          acn_arbn: '',
+          address1: '',
+          address2: '',
+          suburb: '',
+          state: '',
+          country: 'Australia',
+          postcode: '',
+          roles: []
+        },
+        administrator: {
+          first_name: '',
+          last_name: '',
+          email: '',
+          phone: '+61',
+        },
+        plan: 'plan2',
+        ip_australia_names: []
+      },
+    }
+  },
+  created() {},
+  mounted() {
+    let self = this
+    stripeApi.findClientSecret().then((resp) => {
+      self.clientSecret = resp.data.data.clientSecret
+    })
+  },
+  methods: {
+    checkView(newView, oldView) {
+      console.log(`new ${newView} old ${oldView}`)
+      if (this.step == 5) {
+        this.setupStripe()
+      }
+    },
+    async setupStripe() {
+      let self = this
+      const options = {
+        clientSecret: self.clientSecret,
+      };
+      loadStripe(process.env.STRIPE_PUBLISHABLE_KEY).then((stripe) => {
+        self.stripe = stripe
+        self.elements = self.stripe.elements(options);
+        const paymentElement = self.elements.create('payment');
+        paymentElement.mount('#payment-element');
+      })
+    },
+    async confirmSetup(){
+      let self = this
+      const {error} = await self.stripe.confirmSetup({
+        elements: self.elements,
+        confirmParams: {
+          return_url: 'http://localhost:8082/signup',
+        }
+      });
+    },
+    removeItem(item) {
+      this.reg.ip_australia_names.splice(this.reg.ip_australia_names.indexOf(item), 1)
+    },
+    tokenCreated(token) {
+      console.log(token)
+    }
+  }
 })
 </script>
 
 <style scoped>
-
 </style>

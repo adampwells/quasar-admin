@@ -2,15 +2,19 @@ import axios from 'axios'
 import auth from '../auth'
 import router from '../router'
 
+const publicpaths = [
+  '/stripe/clientSecret'
+]
+
 export default {
   apiCall (method, path, data) {
 
-    if (!auth.isUserSignedIn()) {
+    if (!auth.isUserSignedIn() && !publicpaths.includes(path)) {
       router.push('/login')
       return
     }
     let jwtToken = auth.auth.getSignInUserSession().getAccessToken().jwtToken;
-    const baseUrl = process.env.DEV ? 'http://localhost:8888/v1' : 'https://saas-api.markster.com.au/v1'
+    const baseUrl = process.env.API
 
     return axios({
       method: method,

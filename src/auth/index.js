@@ -23,6 +23,7 @@ const auth = new CognitoAuth(authData);
 auth.userhandler = {
   onSuccess: function () {
     UserInfoStore.setLoggedIn(true)
+    // we have got a valid Token, but we don't know if we have a valid user
     UserInfoApi.getMarksterInfo().then((result) => {
       console.log('got markster info: ' + result)
       UserInfoStore.setMarksterInfo(result.data)

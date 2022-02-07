@@ -26,6 +26,7 @@ const routes = [
     path: '/secure',
     component: () => import('layouts/SecureLayout.vue'),
     children: [
+      {path: 'floater', component: () => import('pages/Floater.vue')},
       {path: 'dashboard', component: () => import('pages/Dashboard.vue')},
       {path: 'admin', component: () => import('pages/Admin.vue')},
 

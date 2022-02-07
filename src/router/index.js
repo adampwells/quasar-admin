@@ -31,7 +31,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path.startsWith("/secure")) {
+  if (to.path.startsWith("/secure") && to.path !== '/secure/floater') {
     requireAuth(to, from, next)
   } else {
     next()
@@ -52,7 +52,14 @@ function requireAuth(to, from, next) {
     UserInfoStore.setLoggedIn(true)
     UserInfoApi.getMarksterInfo().then((resp) => {
       userInfoStore.setMarksterInfo(resp.data)
-      next()
+      // redirect floaters to a holding page
+      if (!resp.data.company_id){
+        next({
+          path: '/secure/floater',
+        })
+      } else {
+        next()
+      }
     })
   }
 }

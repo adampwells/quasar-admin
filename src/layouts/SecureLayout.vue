@@ -157,14 +157,6 @@
           label="Settings"
         >
           <q-list class="q-pl-lg">
-            <q-item to="/secure/profile/user" active-class="q-item-no-link-highlighting" @click="selectedNav = 'user'" :focused="selectedNav === 'user'">
-              <q-item-section avatar>
-                <q-icon name="manage_accounts"/>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Your Profile</q-item-label>
-              </q-item-section>
-            </q-item>
             <q-item v-if="hasAdminPermission" to="/secure/profile/company" active-class="q-item-no-link-highlighting" @click="selectedNav = 'company'" :focused="selectedNav === 'company'">
               <q-item-section avatar>
                 <q-icon name="business"/>
