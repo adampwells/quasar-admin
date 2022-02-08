@@ -188,12 +188,20 @@
               owned by your company.
             </div>
             <br>
-            <div ref="card" class="q-mt-lg stripeElement"/>
-            <div
-              v-if="stripeError"
-              class="q-pa-sm text-accent"
-              v-html="stripeError"
-            />
+            <div class="row q-col-gutter-md justify-center">
+              <div class="col-6">
+                <q-card flat bordered>
+                  <q-card-section>
+                    <div ref="card" class="q-mt-lg stripeElement"/>
+                    <div
+                      v-if="stripeError"
+                      class="q-pa-sm text-accent"
+                      v-html="stripeError"
+                    />
+                  </q-card-section>
+                </q-card>
+              </div>
+            </div>
             <br>
             <q-btn @click="registerCard">Register Card</q-btn>
           </q-step>
