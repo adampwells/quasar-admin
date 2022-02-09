@@ -107,7 +107,7 @@
             style="height: 400px"
           >
             <div class="text-body2 text-weight-light">The administrator user can create other users who can login to
-              Marketer.
+              Markster.
             </div>
             <div class="text-body2 text-weight-light">We will email you a temporary password which you will need to
               reset to complete the registration process.
@@ -130,6 +130,17 @@
                 <q-input v-model="reg.administrator.phone" label="Phone" outlined/>
               </div>
             </div>
+            <br>
+            <div class="text-body2 text-weight-light">You can allow users to sign up by themselves and we will add them to your account if the email domain matches the one you provide. This is an easy way of giving your whole company read-only access to Markster.</div>
+            <br>
+            <div class="text-body2 text-weight-light">Just leave the field blank if you don't want to allow this.</div>
+            <br>
+            <div class="row q-col-gutter-md justify-around">
+              <div class="col-4">
+                <q-input v-model="reg.company.auto_register_domain" label="Auto Register Domain" outlined/>
+              </div>
+            </div>
+
           </q-step>
 
 
@@ -208,18 +219,20 @@
 
           <q-step
             :name="6"
-            title="Orientation"
+            title="Welcome Aboard!"
             icon="explore"
+            :done="step === 6"
+            style="height: 400px"
           >
-            Try out different ad text to see what brings in the most customers, and learn how to
-            enhance your ads using features like ad extensions. If you run into any problems with
-            your ads, find out how to tell if they're running and how to resolve approval issues.
+            <p class="text-weight-light">Thank you for signing up with Markster.</p>
+            <p class="text-weight-light">You should receive an email confirmation shortly - please check your spam if it does not show up in your inbox!</p>
+            <p class="text-weight-light">Once you have validated your email you will be able to <router-link to="/secure/dashboard">go to your dashboard.</router-link></p>
           </q-step>
 
           <template v-slot:navigation>
             <q-stepper-navigation>
-              <q-btn @click="$refs.stepper.next()" color="primary" :label="step === 5 ? 'Finish' : 'Continue'"/>
-              <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back"
+              <q-btn v-if="step < 6" @click="handleStep" color="primary" :label="step === 5 ? 'Complete Registration' : 'Continue'"/>
+              <q-btn v-if="step > 1 && step < 6" flat color="primary" @click="$refs.stepper.previous()" label="Back"
                      class="q-ml-sm"/>
             </q-stepper-navigation>
           </template>
@@ -234,7 +247,7 @@ import {defineComponent} from 'vue'
 import {ref} from 'vue'
 import stripeApi from '../../api/stripe'
 import {loadStripe} from '@stripe/stripe-js'
-
+import regApi from '../../api/registration'
 
 export default defineComponent({
   name: "Signup",
@@ -252,7 +265,6 @@ export default defineComponent({
       card: undefined,
       stripeEvent: undefined,
       stripeError: '',
-      stripeToken: undefined,
       publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
       states: [
         'ACT',
@@ -277,7 +289,8 @@ export default defineComponent({
           state: '',
           country: 'Australia',
           postcode: '',
-          roles: []
+          roles: [],
+          auto_register_domain: ''
         },
         administrator: {
           first_name: '',
@@ -286,7 +299,8 @@ export default defineComponent({
           phone: '+61',
         },
         plan: 'plan2',
-        ip_australia_names: []
+        ip_australia_names: [],
+        stripeToken: undefined,
       },
     }
   },
@@ -298,6 +312,12 @@ export default defineComponent({
     })
   },
   methods: {
+    handleStep(){
+      if (this.step === 5) {
+        regApi.registerNewAccount(this.reg)
+      }
+      this.$refs.stepper.next()
+    },
     checkView(newView, oldView) {
       console.log(`new ${newView} old ${oldView}`)
       if (this.step === 5) {
@@ -337,7 +357,7 @@ export default defineComponent({
           return
         }
 
-        self.stripeToken = stripePm?.paymentMethod?.id
+        self.reg.stripeToken = stripePm?.paymentMethod?.id
         self.$q.notify({
           message: 'Card registered successfully.',
           color: 'green-3'

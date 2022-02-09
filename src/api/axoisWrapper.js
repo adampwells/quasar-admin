@@ -3,7 +3,9 @@ import auth from '../auth'
 import router from '../router'
 
 const publicpaths = [
-  '/stripe/clientSecret'
+  '/stripe/clientSecret',
+  '/username',
+  '/registration',
 ]
 
 export default {
