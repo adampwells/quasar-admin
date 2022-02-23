@@ -65,7 +65,7 @@
       class="bg-primary text-white"
     >
       <q-list>
-        <q-item v-if="hasAdminPermission" to="/secure/admin" active-class="q-item-no-link-highlighting" @click="selectedNav = 'admin'" :focused="selectedNav === 'admin'">
+        <q-item v-if="hasMarksterPermission" to="/secure/admin" active-class="q-item-no-link-highlighting" @click="selectedNav = 'admin'" :focused="selectedNav === 'admin'">
           <q-item-section avatar>
             <q-icon name="admin_panel_settings"/>
           </q-item-section>
@@ -291,6 +291,7 @@ export default defineComponent({
       },
       hasPreviewPermission: false,
       hasAdminPermission: false,
+      hasMarksterPermission: false,
     }
   },
 
@@ -298,6 +299,7 @@ export default defineComponent({
     this.userInfo = auth.getMarksterData()
     if (this.userInfo.permissions.includes('preview')) this.hasPreviewPermission = true;
     if (this.userInfo.permissions.includes('admin')) this.hasAdminPermission = true;
+    if (this.userInfo.permissions.includes('markster')) this.hasMarksterPermission = true;
   }
 
 })

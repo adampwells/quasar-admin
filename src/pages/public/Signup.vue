@@ -300,7 +300,7 @@ export default defineComponent({
         },
         plan: 'plan2',
         ip_australia_names: [],
-        stripeToken: undefined,
+        stripe_token: undefined,
       },
     }
   },

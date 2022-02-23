@@ -3,6 +3,6 @@ import auth from '../auth'
 
 export default {
   findClientSecret() {
-    return api.apiCall('get','/stripe/clientSecret', {})
+    return api.apiCall('get','/public/stripe/clientSecret', {})
   },
 }
