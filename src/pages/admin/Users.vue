@@ -1,13 +1,16 @@
 <template>
   <q-page class="q-pa-sm">
-     <q-card flat bordered>
-       <q-card-section>
-         <div class="text-weight-light text-h6">Users</div>
-         <q-table bordered flat
-          :rows="people"
-         />
-       </q-card-section>
-     </q-card>
+    <q-card flat bordered>
+      <q-card-section class="q-gutter-md">
+        <div class="text-weight-light text-h6">Your Users</div>
+        <q-table  flat bordered
+                  :rows-per-page-options="[0]"
+                 :rows="people"
+                 :columns="columns"
+                  hide-bottom
+        />
+      </q-card-section>
+    </q-card>
   </q-page>
 </template>
 
@@ -22,13 +25,44 @@ export default defineComponent({
   setup() {
     return {}
   },
-  data(){
+  data() {
     return {
-      people:[]
+      people: [],
+      columns: [
+        {
+          name: 'firstName',
+          label: 'First Name',
+          field: 'first_name',
+          align: 'left',
+          sortable: true
+        },
+        {
+          name: 'lastName',
+          label: 'Last Name',
+          field: 'last_name',
+          align: 'left',
+          sortable: true
+        },
+        {
+          name: 'email',
+          label: 'Email',
+          field: 'email',
+          align: 'left',
+          sortable: true
+        },
+        {
+          name: 'phone',
+          label: 'Phone',
+          field: 'phone',
+          align: 'left',
+          sortable: true
+        },
+
+      ],
     }
   },
   methods: {
-    findPeopleByCompanyId(){
+    findPeopleByCompanyId() {
       let self = this
       self.$q.loading.show()
       companyApi.findPeopleByCompanyContext().then((result) => {
@@ -36,7 +70,7 @@ export default defineComponent({
       }).catch((error) => {
         self.$q.notify({
           message: error.message,
-          color:'accent'
+          color: 'accent'
         })
       })
       self.$q.loading.hide()

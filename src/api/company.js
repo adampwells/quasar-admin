@@ -5,6 +5,12 @@ export default {
   findAllCompanies() {
     return api.apiCall('get','/secure/company', {})
   },
+  findCompanyDetails(companyId) {
+    if (!companyId) {
+      companyId = auth.getMarksterData().company_id
+    }
+    return api.apiCall('get','/secure/company/' + companyId, {})
+  },
   findPeopleByCompanyContext(companyId) {
     if (!companyId) {
       companyId = auth.getMarksterData().company_id

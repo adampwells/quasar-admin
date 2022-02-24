@@ -58,44 +58,7 @@
             :done="step > 2"
             style="height: 400px"
           >
-            <div class="row q-col-gutter-md">
-              <div class="col-3">
-                <q-input v-model="reg.company.name" label="Company Name" outlined/>
-              </div>
-              <div class="col-3">
-                <q-input v-model="reg.company.acn_arbn" label="ACN/ARBN" outlined/>
-              </div>
-              <div class="col-3">
-                <q-input v-model="reg.company.email" label="Email" outlined/>
-              </div>
-              <div class="col-3">
-                <q-input v-model="reg.company.web" label="Web" outlined/>
-              </div>
-            </div>
-            <br/>
-            <div class="row q-col-gutter-md">
-              <div class="col-6">
-                <q-input v-model="reg.company.address1" label="Address 1" outlined/>
-              </div>
-              <div class="col-6">
-                <q-input v-model="reg.company.address2" label="Address 2" outlined/>
-              </div>
-            </div>
-            <br/>
-            <div class="row q-col-gutter-md">
-              <div class="col-3">
-                <q-input v-model="reg.company.suburb" label="Town" outlined/>
-              </div>
-              <div class="col-3">
-                <q-select v-model="reg.company.state" :options="states" label="State" outlined/>
-              </div>
-              <div class="col-3">
-                <q-input v-model="reg.company.postcode" label="Postcode" outlined/>
-              </div>
-              <div class="col-3">
-                <q-input v-model="reg.company.phone" label="Phone" outlined/>
-              </div>
-            </div>
+            <company-details :company="reg.company" @updated="(c) => reg.company = c"/>
           </q-step>
 
           <q-step
@@ -113,23 +76,7 @@
               reset to complete the registration process.
             </div>
             <br>
-            <div class="row q-col-gutter-md justify-around">
-              <div class="col-4">
-                <q-input v-model="reg.administrator.first_name" label="First Name" outlined/>
-              </div>
-              <div class="col-4">
-                <q-input v-model="reg.administrator.last_name" label="Last Name" outlined/>
-              </div>
-            </div>
-            <br>
-            <div class="row q-col-gutter-md justify-around">
-              <div class="col-4">
-                <q-input v-model="reg.administrator.email" label="Email" outlined/>
-              </div>
-              <div class="col-4">
-                <q-input v-model="reg.administrator.phone" label="Phone" outlined/>
-              </div>
-            </div>
+            <person-details :person="reg.administrator" @updated="(p) => reg.administrator = p"/>
             <br>
             <div class="text-body2 text-weight-light">You can allow users to sign up by themselves and we will add them to your account if the email domain matches the one you provide. This is an easy way of giving your whole company read-only access to Markster.</div>
             <br>
@@ -248,10 +195,12 @@ import {ref} from 'vue'
 import stripeApi from '../../api/stripe'
 import {loadStripe} from '@stripe/stripe-js'
 import regApi from '../../api/registration'
+import CompanyDetails from "components/CompanyDetails";
+import PersonDetails from "components/PersonDetails";
 
 export default defineComponent({
   name: "Signup",
-  components: {},
+  components: {PersonDetails, CompanyDetails},
   setup() {
     return {
       step: ref(1),
