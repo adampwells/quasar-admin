@@ -1,7 +1,13 @@
 <template>
   <q-page class="q-pa-sm">
-    com pro
-    <company-details :company="company" />
+    <q-card flat bordered>
+      <q-card-section>
+        <div class="text-weight-light text-h6">Company Details</div>
+      </q-card-section>
+      <q-card-section>
+        <company-details :company="company" />
+      </q-card-section>
+    </q-card>
   </q-page>
 </template>
 

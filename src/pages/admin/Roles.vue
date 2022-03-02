@@ -2,8 +2,34 @@
   <q-page class="q-pa-sm">
     <q-card flat bordered>
       <q-card-section>
-        <div class="text-weight-light text-h6">Roles</div>
-
+        <div class="text-weight-light text-h6">Security Roles</div>
+      </q-card-section>
+      <q-card-section>
+        <q-table flat bordered
+                 title="Administrators - write access"
+                 :rows-per-page-options="[0]"
+                 :rows="adminPeople"
+                 :columns="columns"
+                 hide-bottom
+        />
+      </q-card-section>
+      <q-card-section>
+        <q-table flat bordered
+                 title="Users - read access"
+                 :rows-per-page-options="[0]"
+                 :rows="userPeople"
+                 :columns="columns"
+                 hide-bottom
+        />
+      </q-card-section>
+      <q-card-section>
+        <q-table flat bordered
+                 title="Invited External Attorneys - write access"
+                 :rows-per-page-options="[0]"
+                 :rows="externalPeople"
+                 :columns="columns"
+                 hide-bottom
+        />
       </q-card-section>
     </q-card>
   </q-page>
@@ -21,21 +47,62 @@ export default defineComponent({
     const $q = useQuasar()
     return {}
   },
-  data(){
+  data() {
     return {
-      roles:[]
+      adminPeople: [],
+      userPeople: [],
+      externalPeople: [],
+      columns: [
+        {
+          name: 'firstName',
+          label: 'First Name',
+          field: 'first_name',
+          align: 'left',
+          sortable: true
+        },
+        {
+          name: 'lastName',
+          label: 'Last Name',
+          field: 'last_name',
+          align: 'left',
+          sortable: true
+        },
+        {
+          name: 'email',
+          label: 'Email',
+          field: 'email',
+          align: 'left',
+          sortable: true
+        },
+        {
+          name: 'phone',
+          label: 'Phone',
+          field: 'phone',
+          align: 'left',
+          sortable: true
+        },
+      ],
     }
   },
   methods: {
-    findRolesByCompanyContext(){
+    findRolesByCompanyContext() {
       let self = this
       self.$q.loading.show()
       companyApi.findRolesByCompanyContext().then((result) => {
+        result.data.data.forEach( (role) => {
+          if (role.name === 'administrator') {
+            self.adminPeople = role.people ? role.people : []
+          } else if (role.name === 'administrator') {
+            self.userPeople = role.people ? role.people : []
+          } else {
+            self.externalPeople = role.people ? role.people : []
+          }
+        })
         self.roles = result.data.data
       }).catch((error) => {
         self.$q.notify({
           message: error.message,
-          color:'accent'
+          color: 'accent'
         })
       })
       self.$q.loading.hide()

@@ -1,8 +1,10 @@
 <template>
   <q-page class="q-pa-sm">
     <q-card flat bordered>
-      <q-card-section class="q-gutter-md">
+      <q-card-section>
         <div class="text-weight-light text-h6">Your Users</div>
+      </q-card-section>
+      <q-card-section>
         <q-table  flat bordered
                   :rows-per-page-options="[0]"
                  :rows="people"
