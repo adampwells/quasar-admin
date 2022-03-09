@@ -43,6 +43,9 @@ import companyApi from "src/api/company";
 
 export default defineComponent({
   name: "Roles",
+  props: {
+    companyContextId: String,
+  },
   setup() {
     const $q = useQuasar()
     return {}

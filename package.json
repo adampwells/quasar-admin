@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@quasar/app": "^3.0.4",
-    "@quasar/quasar-app-extension-qcalendar": "^4.0.0-beta.11",
+    "@quasar/quasar-app-extension-qcalendar": "^4.0.0-beta.13",
     "quasar-app-extension-qhierarchy": "^1.0.0-alpha.1"
   },
   "browser": {

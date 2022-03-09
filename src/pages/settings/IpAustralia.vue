@@ -55,6 +55,9 @@ import {ref} from 'vue'
 
 export default defineComponent({
   name: "IpAustralia",
+  props: {
+    companyContextId: String,
+  },
   setup() {
     return {}
   },

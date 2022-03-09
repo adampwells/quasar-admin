@@ -22,6 +22,9 @@ import auth from '../../auth'
 export default defineComponent({
   name: "CompanyProfile",
   components: {CompanyDetails},
+  props: {
+    companyContextId: String,
+  },
   setup() {
     return {}
   },

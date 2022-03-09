@@ -10,6 +10,9 @@ import {ref} from 'vue'
 
 export default defineComponent({
   name: "External",
+  props: {
+    companyContextId: String,
+  },
   setup() {
     return {}
   },

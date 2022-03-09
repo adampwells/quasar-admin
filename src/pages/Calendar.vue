@@ -85,6 +85,9 @@ function getCurrentDay(day) {
 
 export default defineComponent({
   name: 'Calendar',
+  props: {
+    companyContextId: String,
+  },
   components: {
     QCalendar,
     QCalendarMonth

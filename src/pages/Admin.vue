@@ -11,6 +11,9 @@ import {ref} from 'vue'
 import companyApi from '../api/company'
 export default defineComponent({
   name: "MarksterAdmin",
+  props: {
+    companyContextId: String,
+  },
   setup() {
     return {}
   },

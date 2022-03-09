@@ -22,7 +22,7 @@
             </q-badge>
             <q-menu>
               <q-list style="min-width: 100px">
-                <messages></messages>
+<!--                <messages></messages>-->
                 <q-card class="text-center no-shadow no-border">
                   <q-btn label="View All" style="max-width: 120px !important;" flat dense
                          class="text-indigo-8"></q-btn>
@@ -37,7 +37,7 @@
             <q-menu
             >
               <q-list style="min-width: 100px">
-                <messages></messages>
+<!--                <messages></messages>-->
                 <q-card class="text-center no-shadow no-border">
                   <q-btn label="View All" style="max-width: 120px !important;" flat dense
                          class="text-indigo-8"></q-btn>
@@ -250,9 +250,11 @@
     </q-drawer>
 
     <q-page-container class="bg-grey-2">
-      <keep-alive>
-        <router-view/>
-      </keep-alive>
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" :company-context-id="userInfo.company_id"/>
+        </keep-alive>
+      </router-view>
     </q-page-container>
   </q-layout>
 </template>
@@ -284,7 +286,6 @@ export default defineComponent({
   data: function () {
     return {
       selectedNav: 'dashboard',
-      companyContext: 'Markster',
       companies: ['Markster', 'Megaport'],
       userInfo: {
         permission:[]

@@ -53,6 +53,20 @@ export default defineComponent({
   setup() {
     return {}
   },
+  data() {
+    return {
+      states:[
+        'QLD',
+        'NSW',
+        'VIC',
+        'ACT',
+        'SA',
+        'NT',
+        'WA',
+        'TAS',
+      ]
+    }
+  },
   emits: {
     updated(company){
       // updated company details
