@@ -50,9 +50,10 @@ module.exports = configure(function (ctx) {
       vueRouterMode: 'history', // available values: 'hash', 'history'
 
       env: {
+        DEST_ENV:process.env.DEST_ENV,
         GIT_BRANCH: git.branch,
         GIT_SHA: git.abbreviatedSha,
-        API: ctx.dev ? 'http://localhost:8888/v1' : (process.env.CF_PAGES_BRANCH === 'staging' ? 'https://saas-api-staging.markster.com.au' : 'https://saas-api.markster.com.au'),
+        API: ctx.dev ? 'http://localhost:8888/v1' : (process.env.DEST_ENV === 'prod' ? 'https://saas-api.markster.com.au' : 'https://saas-api-staging.markster.com.au'),
         STRIPE_PUBLISHABLE_KEY: 'pk_test_51KQKrBDUsKs3sdAhUtbgY0Zvw4CMqzQpn2cBAFmZWoxwLe8LlW6oBDCPRvupy5j6eJSpwjnBkS70P1ptahO1C4jX00Wm34ux9N'
       },
 
