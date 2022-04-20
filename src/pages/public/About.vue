@@ -1,6 +1,8 @@
 <template>
   <q-page class="q-pa-sm">
     about
+    {{branch}}
+    {{commitHash}}
   </q-page>
 </template>
 
@@ -12,6 +14,12 @@ export default defineComponent({
   name: "About",
   setup() {
     return {}
+  },
+  data() {
+    return {
+      branch: process.env.BRANCH,
+      commitHash: process.env.COMMIT_HASH,
+    }
   },
   mounted() {},
 })
