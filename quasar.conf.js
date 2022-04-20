@@ -51,9 +51,9 @@ module.exports = configure(function (ctx) {
 
       env: {
         GIT: JSON.stringify(git),
-        COMMIT_HASH: git.abbreviatedSha,
-        BRANCH: git.branch,
-        API: ctx.dev ? 'http://localhost:8888/v1' : (git.branch === 'staging' ? 'https://saas-api-staging.markster.com.au' : 'https://saas-api.markster.com.au'),
+        COMMIT_HASH: git.abbreviatedSha ? git.abbreviatedSha : process.env.CF_PAGES_COMMIT_SHA,
+        BRANCH: git.branch ? git.branch : process.env.CF_PAGES_BRANCH,
+        API: ctx.dev ? 'http://localhost:8888/v1' : (process.env.CF_PAGES_BRANCH === 'staging' ? 'https://saas-api-staging.markster.com.au' : 'https://saas-api.markster.com.au'),
         STRIPE_PUBLISHABLE_KEY: 'pk_test_51KQKrBDUsKs3sdAhUtbgY0Zvw4CMqzQpn2cBAFmZWoxwLe8LlW6oBDCPRvupy5j6eJSpwjnBkS70P1ptahO1C4jX00Wm34ux9N'
       },
 
