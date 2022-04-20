@@ -23,8 +23,8 @@ export default defineComponent({
     return {
       companies: [],
       apimessage:'',
-      branch: process.env.BRANCH,
-      commitHash: process.env.COMMIT_HASH,
+      branch: process.env.CF_PAGES_BRANCH,
+      commitHash: process.env.CF_PAGES_COMMIT_SHA,
     }
   },
   methods: {

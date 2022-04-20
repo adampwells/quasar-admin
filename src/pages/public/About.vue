@@ -18,9 +18,8 @@ export default defineComponent({
   },
   data() {
     return {
-      git: process.env.GIT,
-      branch: process.env.BRANCH,
-      commitHash: process.env.COMMIT_HASH,
+      commitHash: process.env.GIT_SHA ? process.env.GIT_SHA : process.env.CF_PAGES_COMMIT_SHA,
+      branch: process.env.GIT_BRANCH ? process.env.GIT_BRANCH : process.env.CF_PAGES_BRANCH,
       api: process.env.API,
     }
   },
