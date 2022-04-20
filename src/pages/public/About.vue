@@ -4,7 +4,6 @@
     {{branch}}
     {{commitHash}}
     {{api}}
-    <pre>{{git}}</pre>
   </q-page>
 </template>
 
