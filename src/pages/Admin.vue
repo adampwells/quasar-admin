@@ -2,6 +2,8 @@
   <q-page class="q-pa-sm">
     Markster Admin
     {{apimessage}}
+    {{branch}}{{commitHash}}
+
   </q-page>
 </template>
 
@@ -20,7 +22,9 @@ export default defineComponent({
   data() {
     return {
       companies: [],
-      apimessage:''
+      apimessage:'',
+      branch: process.env.BRANCH,
+      commitHash: process.env.COMMIT_HASH,
     }
   },
   methods: {
