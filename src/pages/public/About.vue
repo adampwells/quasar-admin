@@ -4,6 +4,7 @@
     {{branch}}
     {{commitHash}}
     {{api}}
+    <pre>{{git}}</pre>
   </q-page>
 </template>
 
@@ -18,6 +19,7 @@ export default defineComponent({
   },
   data() {
     return {
+      git: process.env.GIT,
       branch: process.env.BRANCH,
       commitHash: process.env.COMMIT_HASH,
       api: process.env.API,

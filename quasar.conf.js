@@ -50,7 +50,8 @@ module.exports = configure(function (ctx) {
       vueRouterMode: 'history', // available values: 'hash', 'history'
 
       env: {
-        COMMIT_HASH: git.sha,
+        GIT: JSON.stringify(git),
+        COMMIT_HASH: git.abbreviatedSha,
         BRANCH: git.branch,
         API: ctx.dev ? 'http://localhost:8888/v1' : (git.branch === 'staging' ? 'https://saas-api-staging.markster.com.au' : 'https://saas-api.markster.com.au'),
         STRIPE_PUBLISHABLE_KEY: 'pk_test_51KQKrBDUsKs3sdAhUtbgY0Zvw4CMqzQpn2cBAFmZWoxwLe8LlW6oBDCPRvupy5j6eJSpwjnBkS70P1ptahO1C4jX00Wm34ux9N'
