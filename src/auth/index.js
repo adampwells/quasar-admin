@@ -10,24 +10,14 @@ const authData = process.env.DEV ? {
   RedirectUriSignIn: 'http://localhost:8082/login/oauth2/code/cognito',
   RedirectUriSignOut: 'http://localhost:8082/logout',
   UserPoolId: 'ap-southeast-2_dsv4zXtn8'
-} :  process.env.CF_PAGES_BRANCH === 'staging' ?
-  {
-    ClientId: '6f2q5e3mnth4a409hhp3q7e8m3',
-    AppWebDomain: 'markster-web.auth.ap-southeast-2.amazoncognito.com',
-    TokenScopesArray: ['openid', 'email'],
-    RedirectUriSignIn: 'https://staging.quasar-admin.pages.dev/login/oauth2/code/cognito',
-    RedirectUriSignOut: 'https://staging.quasar-admin.pages.dev/logout',
-    UserPoolId: 'ap-southeast-2_dsv4zXtn8'
-  } :
-    {
-      ClientId: '6f2q5e3mnth4a409hhp3q7e8m3',
-      AppWebDomain: 'markster-web.auth.ap-southeast-2.amazoncognito.com',
-      TokenScopesArray: ['openid', 'email'],
-      RedirectUriSignIn: 'https://saas.markster.com.au/login/oauth2/code/cognito',
-      RedirectUriSignOut: 'https://saas.markster.com.au/logout',
-      UserPoolId: 'ap-southeast-2_dsv4zXtn8'
-    }
-;
+} : {
+  ClientId: '6f2q5e3mnth4a409hhp3q7e8m3',
+  AppWebDomain: 'markster-web.auth.ap-southeast-2.amazoncognito.com',
+  TokenScopesArray: ['openid', 'email'],
+  RedirectUriSignIn: 'https://saas.markster.com.au/login/oauth2/code/cognito',
+  RedirectUriSignOut: 'https://saas.markster.com.au/logout',
+  UserPoolId: 'ap-southeast-2_dsv4zXtn8'
+};
 
 const auth = new CognitoAuth(authData);
 auth.userhandler = {
