@@ -3,6 +3,7 @@
     about
     {{branch}}
     {{commitHash}}
+    {{api}}
   </q-page>
 </template>
 
@@ -19,6 +20,7 @@ export default defineComponent({
     return {
       branch: process.env.BRANCH,
       commitHash: process.env.COMMIT_HASH,
+      api: process.env.API,
     }
   },
   mounted() {},
