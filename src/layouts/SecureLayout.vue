@@ -16,6 +16,8 @@
         </q-toolbar-title>
         <q-space/>
         <div class="q-gutter-sm row items-center no-wrap">
+          <q-btn v-if="hasMarksterPermission" round dense flat color="white" icon="info" @click="alert = true">
+          </q-btn>
           <q-btn round dense flat color="white" icon="alarm">
             <q-badge color="red" text-color="white" floating>
               5
@@ -257,11 +259,35 @@
       </router-view>
     </q-page-container>
   </q-layout>
+  <q-dialog v-model="alert">
+    <q-card>
+      <q-card-section>
+        <div class="text-h6">Version Information</div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        <div class="text-h6">GUI Info</div>
+        <div class="text-subtitle2">Branch: {{guiBranch}}</div>
+        <div class="text-subtitle2">Commit: {{guiCommitHash}}</div>
+      </q-card-section>
+      <q-card-section class="q-pt-none">
+        <div class="text-h6">API Info</div>
+        <div class="text-subtitle2">URL: {{apiServer}}</div>
+        <div class="text-subtitle2">Commit: {{apiCommitHash}}</div>
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="OK" color="primary" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>
 import EssentialLink from 'components/EssentialLink.vue'
 import auth from '../auth'
+import versionApi from '../api/version'
+
 
 import {defineComponent, ref} from 'vue'
 
@@ -293,15 +319,24 @@ export default defineComponent({
       hasPreviewPermission: false,
       hasAdminPermission: false,
       hasMarksterPermission: false,
-      headerStyle: process.env.HEADER_BACKGROUND
+      headerStyle: process.env.HEADER_BACKGROUND,
+      alert: false,
+      guiCommitHash: process.env.GIT_SHA ? process.env.GIT_SHA : process.env.CF_PAGES_COMMIT_SHA,
+      apiCommitHash:'',
+      guiBranch: process.env.GIT_BRANCH ? process.env.GIT_BRANCH : process.env.CF_PAGES_BRANCH,
+      apiServer: process.env.API,
     }
   },
 
   mounted() {
+    let self = this
     this.userInfo = auth.getMarksterData()
     if (this.userInfo.permissions.includes('preview')) this.hasPreviewPermission = true;
     if (this.userInfo.permissions.includes('admin')) this.hasAdminPermission = true;
     if (this.userInfo.permissions.includes('markster')) this.hasMarksterPermission = true;
+    versionApi.findApiVersionInfo().then(d => {
+      self.apiCommitHash = d.data.data.version
+    })
   }
 
 })
