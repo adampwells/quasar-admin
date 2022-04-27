@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
 <!--  <q-layout view="lHh Lpr lFf">-->
-    <q-header >
+    <q-header  bordered :class="headerStyle">
       <q-toolbar>
         <q-toolbar-title>
           Markster
@@ -40,6 +40,12 @@ import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   name: 'MainLayout',
-  setup () {}
+  setup () {},
+  data() {
+    return {
+      headerStyle: process.env.HEADER_BACKGROUND
+    }
+  }
+
 })
 </script>

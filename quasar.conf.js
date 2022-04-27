@@ -12,6 +12,7 @@ let git = getRepoInfo();
 
 module.exports = configure(function (ctx) {
   return {
+
     // https://quasar.dev/quasar-cli/supporting-ts
     supportTS: false,
 
@@ -53,7 +54,8 @@ module.exports = configure(function (ctx) {
         DEST_ENV:process.env.DEST_ENV,
         GIT_BRANCH: git.branch,
         GIT_SHA: git.abbreviatedSha,
-        API: ctx.dev ? 'http://localhost:8888/v1' : (process.env.DEST_ENV === 'prod' ? 'https://saas-api.markster.com.au' : 'https://saas-api-staging.markster.com.au'),
+        HEADER_BACKGROUND: process.env.DEST_ENV === 'prod' ? 'bg-primary' : 'bg-red',
+          API: ctx.dev ? 'http://localhost:8888/v1' : (process.env.DEST_ENV === 'prod' ? 'https://saas-api.markster.com.au' : 'https://saas-api-staging.markster.com.au'),
         STRIPE_PUBLISHABLE_KEY: 'pk_test_51KQKrBDUsKs3sdAhUtbgY0Zvw4CMqzQpn2cBAFmZWoxwLe8LlW6oBDCPRvupy5j6eJSpwjnBkS70P1ptahO1C4jX00Wm34ux9N'
       },
 

@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <!--  <q-layout view="lHh Lpr lFf">-->
-    <q-header bordered>
+    <q-header bordered :class="headerStyle">
       <q-toolbar>
         <q-btn
           flat
@@ -293,6 +293,7 @@ export default defineComponent({
       hasPreviewPermission: false,
       hasAdminPermission: false,
       hasMarksterPermission: false,
+      headerStyle: process.env.HEADER_BACKGROUND
     }
   },
 

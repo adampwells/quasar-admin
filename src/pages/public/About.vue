@@ -1,9 +1,9 @@
 <template>
   <q-page class="q-pa-sm">
-    about
-    {{branch}}
-    {{commitHash}}
-    {{api}}
+    About Markster GUI
+    Branch:{{branch}}<br>
+    GIT Commit:{{commitHash}}<br>
+    API: {{api}}<br>
   </q-page>
 </template>
 

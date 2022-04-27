@@ -1,0 +1,27 @@
+version: '3.2'
+
+services:
+
+  markster-web-prod:
+    image: apwells/markster-web-prod
+    deploy:
+      mode: replicated
+      replicas: 3
+      placement:
+        constraints: [node.role == manager]
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik_public"
+        - "traefik.http.routers.markster-web-prod.rule=Host(`saas.markster.com.au`)"
+        - "traefik.http.routers.markster-web-prod.entrypoints=https"
+        - "traefik.http.services.markster-web-prod.loadbalancer.server.port=80"
+        - "traefik.http.routers.markster-web-prod.tls.certresolver=lets-encrypt"
+        - "traefik.http.routers.markster-web-prod.tls=true"
+        - "traefik.http.routers.markster-web-prod.tls.domains[0].main=saas.markster.com.au"
+        - "traefik.http.routers.markster-web-prod.tls.domains[0].sans=*.markster.com.au"
+    networks:
+      - traefik_public
+
+networks:
+  traefik_public:
+    external: true

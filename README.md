@@ -59,13 +59,10 @@ brew install authzed/tap/zed
 zed context set first-dev-context :50051 "a4a01703-dc9c-4dc9-826c-83b3b8b4ce28" --insecure
 ```
 
-# Cloudflare Pages
-
-set up vue-tour
-
-# Cloudflare Pages
+# Environments
 
 https://saas.markster.com.au
+https://saas-staging.markster.com.au
 
 # Quasar Admin Template
 
