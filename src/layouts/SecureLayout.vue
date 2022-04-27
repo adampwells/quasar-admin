@@ -271,8 +271,11 @@
         <div class="text-subtitle2">Commit: {{guiCommitHash}}</div>
       </q-card-section>
       <q-card-section class="q-pt-none">
+        <div class="text-h6">URL: {{apiServer}}</div>
+      </q-card-section>
+      <q-card-section class="q-pt-none">
         <div class="text-h6">API Info</div>
-        <div class="text-subtitle2">URL: {{apiServer}}</div>
+        <div class="text-subtitle2">Branch: {{apiBranch}}</div>
         <div class="text-subtitle2">Commit: {{apiCommitHash}}</div>
       </q-card-section>
 
@@ -321,9 +324,10 @@ export default defineComponent({
       hasMarksterPermission: false,
       headerStyle: process.env.HEADER_BACKGROUND,
       alert: false,
-      guiCommitHash: process.env.GIT_SHA ? process.env.GIT_SHA : process.env.CF_PAGES_COMMIT_SHA,
-      apiCommitHash:'',
-      guiBranch: process.env.GIT_BRANCH ? process.env.GIT_BRANCH : process.env.CF_PAGES_BRANCH,
+      guiCommitHash: process.env.GIT_SHA,
+      apiCommitHash: '',
+      apiBranch:'',
+      guiBranch: process.env.GIT_BRANCH,
       apiServer: process.env.API,
     }
   },
@@ -336,6 +340,7 @@ export default defineComponent({
     if (this.userInfo.permissions.includes('markster')) this.hasMarksterPermission = true;
     versionApi.findApiVersionInfo().then(d => {
       self.apiCommitHash = d.data.data.version
+      self.apiBranch = d.data.data.branch
     })
   }
 
