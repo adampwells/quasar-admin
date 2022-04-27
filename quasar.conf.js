@@ -55,7 +55,7 @@ module.exports = configure(function (ctx) {
         GIT_BRANCH: git.branch,
         GIT_SHA: git.abbreviatedSha,
         HEADER_BACKGROUND: process.env.DEST_ENV === 'prod' ? 'bg-primary' : 'bg-red',
-          API: ctx.dev ? 'http://localhost:8888/v1' : (process.env.DEST_ENV === 'prod' ? 'https://saas-api.markster.com.au' : 'https://saas-api-staging.markster.com.au'),
+        API: ctx.dev ? 'http://localhost:8888/v1' : (process.env.DEST_ENV === 'prod' ? 'https://saas-api.markster.com.au/v1' : 'https://saas-api-staging.markster.com.au/v1'),
         STRIPE_PUBLISHABLE_KEY: 'pk_test_51KQKrBDUsKs3sdAhUtbgY0Zvw4CMqzQpn2cBAFmZWoxwLe8LlW6oBDCPRvupy5j6eJSpwjnBkS70P1ptahO1C4jX00Wm34ux9N'
       },
 

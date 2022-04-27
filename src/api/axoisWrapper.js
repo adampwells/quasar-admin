@@ -6,6 +6,7 @@ const publicpaths = [
   '/public/stripe/clientSecret',
   '/public/username',
   '/public/registration',
+  '/public/version',
 ]
 
 export default {

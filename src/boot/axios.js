@@ -1,7 +1,8 @@
 import { boot } from 'quasar/wrappers'
 import axios from 'axios'
 
-const baseUrl = process.env.DEV ? 'http://localhost:8888/v1' : 'https://saas-api.markster.com.au/v1'
+// const baseUrl = process.env.DEV ? 'http://localhost:8888/v1' : 'https://saas-api.markster.com.au/v1'
+const baseUrl = process.env.API
 
 const api = axios.create({ baseURL: baseUrl })
 
