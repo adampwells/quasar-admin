@@ -1,9 +1,6 @@
 <template>
   <q-page class="q-pa-sm">
     Markster Admin
-    {{apimessage}}
-    {{branch}}{{commitHash}}
-
   </q-page>
 </template>
 
@@ -22,9 +19,6 @@ export default defineComponent({
   data() {
     return {
       companies: [],
-      apimessage:'',
-      branch: process.env.CF_PAGES_BRANCH,
-      commitHash: process.env.CF_PAGES_COMMIT_SHA,
     }
   },
   methods: {

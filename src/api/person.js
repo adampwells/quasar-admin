@@ -8,4 +8,7 @@ export default {
   upsertUser(personDto) {
     return api.apiCall('post','/secure/person', personDto)
   },
+  findCurrentUser() {
+    return api.apiCall('get','/secure/currentUser', {})
+  },
 }
