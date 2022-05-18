@@ -76,7 +76,7 @@ export default defineComponent({
       companyApi.saveCompanyDetails(self.company).then((result) => {
         self.$emit('updated', self.company)
         self.$q.notify({
-          message: 'Success!',
+          message: 'Company updated',
           color: 'primary'
         })
       }).catch((error) => {

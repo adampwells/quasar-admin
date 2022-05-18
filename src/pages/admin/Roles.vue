@@ -13,18 +13,18 @@
             <q-select outlined dense :options="allUsers" :option-label="u => u.first_name + ' ' + u.last_name" v-model="selectedUser"></q-select>
           </div>
           <div class="col-auto">
-            to Group
+            to Role
           </div>
           <div class="col-3">
-            <q-select outlined dense :options="groups" v-model="selectedGroup"></q-select>
+            <q-select outlined dense :options="roleNames" v-model="selectedRole"></q-select>
           </div>
           <div class="col-auto">
-            <q-btn dense @click="addUserToGroup">Add</q-btn>
+            <q-btn dense @click="addUserToRole">Add</q-btn>
           </div>
         </div>
       </q-card-section>
       <q-card-section>
-        <q-tooltip hide-delay="500" anchor="top middle">Administrators can add, remove, disable and enable standard
+        <q-tooltip anchor="top middle">Administrators can add, remove, disable and enable standard
           Users
         </q-tooltip>
         <q-table flat bordered
@@ -40,11 +40,11 @@
                      round
                      flat
                      color="grey"
-                     @click.stop="removeUserFromGroup(props.row.person_id, 'administrators')"
+                     @click.stop="removeUserFromRole(props.row, 'administrator')"
                      icon="person_remove"
               >
                 <q-tooltip>
-                  Reomove user from group
+                  Reomove user from role
                 </q-tooltip>
               </q-btn>
             </q-td>
@@ -54,7 +54,7 @@
       <q-card-section>
         <q-tooltip anchor="top middle">Standard users of the system</q-tooltip>
         <q-table flat bordered
-                 title="Users"
+                 title="User"
                  :rows-per-page-options="[0]"
                  :rows="userPeople"
                  :columns="columns"
@@ -66,11 +66,11 @@
                      round
                      flat
                      color="grey"
-                     @click.stop="removeUserFromGroup(props.row.person_id, 'users')"
+                     @click.stop="removeUserFromRole(props.row, 'user')"
                      icon="person_remove"
               >
                 <q-tooltip>
-                  Reomove user from group
+                  Reomove user from role
                 </q-tooltip>
               </q-btn>
             </q-td>
@@ -93,11 +93,11 @@
                      round
                      flat
                      color="grey"
-                     @click.stop="removeUserFromGroup(props.row.person_id, 'previewers')"
+                     @click.stop="removeUserFromRole(props.row, 'previewer')"
                      icon="person_remove"
               >
                 <q-tooltip>
-                  Reomove user from group
+                  Reomove user from role
                 </q-tooltip>
               </q-btn>
             </q-td>
@@ -123,6 +123,7 @@
 import {defineComponent} from 'vue'
 import {ref} from 'vue'
 import {useQuasar} from 'quasar'
+import securityApi from "src/api/security";
 import companyApi from "src/api/company";
 
 export default defineComponent({
@@ -136,9 +137,10 @@ export default defineComponent({
   },
   data() {
     return {
-      selectedGroup: undefined,
+      selectedRole: undefined,
       selectedUser: undefined,
-      groups:["administrators", "users", "previewers"],
+      roles: [],
+      roleNames:["administrator", "user", "previewer"],
       allUsers: [],
       adminPeople: [],
       userPeople: [],
@@ -184,11 +186,54 @@ export default defineComponent({
     }
   },
   methods: {
-    addUserToGroup() {
-      console.log('add ' + this.selectedUser.person_id + ' to ' + this.selectedGroup)
+    addUserToRole() {
+      let self = this
+      console.log('add ' + this.selectedUser.person_id + ' to ' + this.selectedRole)
+      securityApi.addUserToRole(this.selectedRole, this.selectedUser.person_id).catch((error) => {
+        self.$q.notify({
+          message: error.message,
+          color: 'accent'
+        })
+      })
+      switch(this.selectedRole){
+        case 'user':
+          self.userPeople.push(this.selectedUser)
+          break
+        case 'administrator':
+          self.adminPeople.push(this.selectedUser)
+          break
+        case 'previewer':
+          self.previewPeople.push(this.selectedUser)
+          break
+      }
     },
-    removeUserFromGroup(person_id, group) {
-      console.log('remove ' + person_id + ' from ' + group)
+    removeUserFromRole(person, role) {
+      let self = this
+      console.log('remove ' + person.person_id + ' from ' + role)
+      securityApi.removeUserFromRole(role, person.person_id).catch((error) => {
+        self.$q.notify({
+          message: error.message,
+          color: 'accent'
+        })
+      })
+      var idx = -1
+      self.userPeople.forEach((p, i) => {
+        if (p.person_id = person.person_id) {
+          idx = i
+          console.log('found index ' + idx)
+        }
+      })
+      switch(this.selectedRole){
+        case 'user':
+          self.userPeople.splice(idx,1)
+          break
+        case 'administrator':
+          self.adminPeople.splice(idx,1)
+          break
+        case 'previewer':
+          self.previewPeople.splice(idx,1)
+          break
+      }
     },
     findAllUsers() {
       let self = this
@@ -210,8 +255,10 @@ export default defineComponent({
         result.data.data.forEach((role) => {
           if (role.name === 'administrator') {
             self.adminPeople = role.people ? role.people : []
-          } else if (role.name === 'administrator') {
+          } else if (role.name === 'user') {
             self.userPeople = role.people ? role.people : []
+          } else if (role.name === 'previewer') {
+            self.previewPeople = role.people ? role.people : []
           } else {
             self.externalPeople = role.people ? role.people : []
           }
