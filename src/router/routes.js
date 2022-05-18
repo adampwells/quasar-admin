@@ -62,6 +62,8 @@ const routes = [
       {path: 'about', component: () => import('pages/public/About.vue')},
       {path: 'pricing', component: () => import('pages/public/Pricing.vue')},
       {path: 'signup', component: () => import('pages/public/Signup.vue')},
+      {path: 'unknown', component: () => import('pages/public/UnknownUser.vue')},
+      {path: 'noauto', component: () => import('pages/public/NoAutoEnrol.vue')},
       {
         path: 'logout',
         beforeEnter(to, from, next) {

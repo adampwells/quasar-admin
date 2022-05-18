@@ -50,16 +50,26 @@ function requireAuth(to, from, next) {
     })
   } else {
     UserInfoStore.setLoggedIn(true)
-    UserInfoApi.getMarksterInfo().then((resp) => {
-      userInfoStore.setMarksterInfo(resp.data)
-      // redirect floaters to a holding page
-      if (!resp.data.company_id){
-        next({
-          path: '/secure/floater',
-        })
-      } else {
-        next()
-      }
-    })
+
+    var companyId = undefined
+    if (UserInfoStore.getMarksterInfo()) {
+      console.log('looks like we have user data')
+      companyId = UserInfoStore.getMarksterInfo().company_id
+    } else {
+      console.log('looks like we DON\'T have user data, so go get some')
+      UserInfoApi.getMarksterInfo().then((resp) => {
+        userInfoStore.setMarksterInfo(resp.data)
+        companyId = resp.data.company_id
+      })
+    }
+    // redirect floaters to a holding page
+    if (!companyId) {
+      next({
+        path: '/secure/floater',
+      })
+    } else {
+      next()
+    }
+
   }
 }
