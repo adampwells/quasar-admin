@@ -67,14 +67,22 @@
       class="bg-primary text-white"
     >
       <q-list>
-        <q-item v-if="hasMarksterPermission" to="/secure/admin" active-class="q-item-no-link-highlighting" @click="selectedNav = 'admin'" :focused="selectedNav === 'admin'">
-          <q-item-section avatar>
-            <q-icon name="admin_panel_settings"/>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Markster Admin</q-item-label>
-          </q-item-section>
-        </q-item>
+        <q-expansion-item
+          v-if="hasMarksterPermission"
+          icon="admin_panel_settings"
+          label="Markster Admin"
+        >
+          <q-list class="q-pl-lg">
+            <q-item v-if="hasMarksterPermission" to="/secure/admin/customers" active-class="q-item-no-link-highlighting" @click="selectedNav = 'admin'" :focused="selectedNav === 'admin'">
+              <q-item-section avatar>
+                <q-icon name="business"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Customers</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-expansion-item>
         <q-item to="/secure/dashboard" active-class="q-item-no-link-highlighting" @click="selectedNav = 'dashboard'" :focused="selectedNav === 'dashboard'">
           <q-item-section avatar>
             <q-icon name="dashboard"/>

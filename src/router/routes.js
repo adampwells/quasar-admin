@@ -28,7 +28,8 @@ const routes = [
     children: [
       {path: 'floater', component: () => import('pages/Floater.vue')},
       {path: 'dashboard', component: () => import('pages/Dashboard.vue')},
-      {path: 'admin', component: () => import('pages/Admin.vue')},
+
+      {path: 'admin/customers', component: () => import('pages/markster/Customers.vue')},
 
       // admin
       {path: 'admin/userprofile', component: () => import('pages/admin/UserProfile.vue')},
