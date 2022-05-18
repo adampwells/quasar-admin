@@ -217,20 +217,32 @@ export default defineComponent({
         })
       })
       var idx = -1
-      self.userPeople.forEach((p, i) => {
-        if (p.person_id = person.person_id) {
-          idx = i
-          console.log('found index ' + idx)
-        }
-      })
       switch(this.selectedRole){
         case 'user':
+          self.userPeople.forEach((p, i) => {
+            if (p.person_id = person.person_id) {
+              idx = i
+              console.log('found user index ' + idx)
+            }
+          })
           self.userPeople.splice(idx,1)
           break
         case 'administrator':
+          self.adminPeople.forEach((p, i) => {
+            if (p.person_id = person.person_id) {
+              idx = i
+              console.log('found administrator index ' + idx)
+            }
+          })
           self.adminPeople.splice(idx,1)
           break
         case 'previewer':
+          self.previewPeople.forEach((p, i) => {
+            if (p.person_id = person.person_id) {
+              idx = i
+              console.log('found previewer index ' + idx)
+            }
+          })
           self.previewPeople.splice(idx,1)
           break
       }
