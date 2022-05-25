@@ -8,13 +8,9 @@
           </div>
           <br>
           <div class="text-weight-light col-3">
-            You have successfully logged in, but we have not been able to match you to a registered company by looking at your email address domain so you are in a holding pattern for now!
+            You have successfully logged in, but we have not been able to match you to a registered company by looking at your email address domain.
           </div>
           <br>
-          <div class="text-weight-light" col-3>
-            To automatically link new users with a parent company, the company admin has to record a domain from which it will accept all users.<br>
-            You should first follow up with that person to check for typos, or contact us at <a href="mailto: info@markster.com.au">info@markster.com.au</a>.
-          </div>
         </q-card-section>
       </q-card>
     </div>
@@ -27,7 +23,7 @@
 import {defineComponent} from 'vue'
 import auth from '../auth'
 export default defineComponent({
-  name: 'Floater',
+  name: 'Register',
   components: {},
   data() {
     return {

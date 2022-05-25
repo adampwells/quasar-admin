@@ -34,7 +34,7 @@ auth.userhandler = {
     UserInfoStore.setLoggedIn(true)
     // we have got a valid Token, but we don't know if we have a valid user
     UserInfoApi.getMarksterInfo().then((result) => {
-      console.log('got markster info: ' + result)
+      console.log('got markster info: ' + JSON.stringify(result.data))
       UserInfoStore.setMarksterInfo(result.data)
       router.push('/secure/dashboard')
     })

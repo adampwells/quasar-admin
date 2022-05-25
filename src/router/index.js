@@ -31,7 +31,10 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path.startsWith("/secure") && to.path !== '/secure/floater') {
+  if (to.path.startsWith("/secure") && !to.path.includes('/secure/register') && !to.path.includes('/secure/purgatory')) {
+    requireAuth(to, from, next)
+  } else if ((to.path.includes('/secure/register') || to.path.includes('/secure/purgatory')) && !auth.isUserSignedIn()) {
+    // in this case they are coming direct to the path, and need to go through login
     requireAuth(to, from, next)
   } else {
     next()
@@ -51,24 +54,36 @@ function requireAuth(to, from, next) {
   } else {
     UserInfoStore.setLoggedIn(true)
 
-    var companyId = undefined
+    var person_status = undefined
     if (UserInfoStore.getMarksterInfo()) {
       console.log('looks like we have user data')
-      companyId = UserInfoStore.getMarksterInfo().company_id
+      person_status = UserInfoStore.getMarksterInfo().person_status
     } else {
       console.log('looks like we DON\'T have user data, so go get some')
       UserInfoApi.getMarksterInfo().then((resp) => {
         userInfoStore.setMarksterInfo(resp.data)
-        companyId = resp.data.company_id
+        person_status = resp.data.person_status
       })
     }
+    console.log('person_status ' + person_status)
     // redirect floaters to a holding page
-    if (!companyId) {
+    if (person_status === 'not_registered') {
+      console.log('go to /secure/register')
       next({
-        path: '/secure/floater',
+        path: '/secure/register',
       })
-    } else {
+    } else if (person_status === 'no_autoenrol') {
+      console.log('go to /secure/purgatory')
+      next({
+        path: '/secure/purgatory',
+      })
+    } else if (person_status === 'known') {
+      console.log('go to next()')
       next()
+    } else {
+      next({
+        path: '/404',
+      })
     }
 
   }

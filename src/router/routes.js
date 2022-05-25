@@ -26,7 +26,8 @@ const routes = [
     path: '/secure',
     component: () => import('layouts/SecureLayout.vue'),
     children: [
-      {path: 'floater', component: () => import('pages/Floater.vue')},
+      {path: 'register', component: () => import('pages/SecureRegister.vue')},
+      {path: 'purgatory', component: () => import('pages/Purgatory.vue')},
       {path: 'dashboard', component: () => import('pages/Dashboard.vue')},
 
       {path: 'admin/customers', component: () => import('pages/markster/Customers.vue')},
@@ -62,8 +63,6 @@ const routes = [
       {path: 'about', component: () => import('pages/public/About.vue')},
       {path: 'pricing', component: () => import('pages/public/Pricing.vue')},
       {path: 'signup', component: () => import('pages/public/Signup.vue')},
-      {path: 'unknown', component: () => import('pages/public/UnknownUser.vue')},
-      {path: 'noauto', component: () => import('pages/public/NoAutoEnrol.vue')},
       {
         path: 'logout',
         beforeEnter(to, from, next) {
