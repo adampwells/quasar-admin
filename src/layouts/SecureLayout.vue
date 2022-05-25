@@ -343,9 +343,9 @@ export default defineComponent({
   mounted() {
     let self = this
     this.userInfo = auth.getMarksterData()
-    if (this.userInfo.permissions.includes('preview')) this.hasPreviewPermission = true;
-    if (this.userInfo.permissions.includes('admin')) this.hasAdminPermission = true;
-    if (this.userInfo.permissions.includes('markster')) this.hasMarksterPermission = true;
+    if (this.userInfo.permissions && this.userInfo.permissions.includes('preview')) this.hasPreviewPermission = true;
+    if (this.userInfo.permissions && this.userInfo.permissions.includes('admin')) this.hasAdminPermission = true;
+    if (this.userInfo.permissions && this.userInfo.permissions.includes('markster')) this.hasMarksterPermission = true;
     versionApi.findApiVersionInfo().then(d => {
       self.apiCommitHash = d.data.data.version
       self.apiBranch = d.data.data.branch
