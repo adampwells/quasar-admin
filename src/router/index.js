@@ -60,58 +60,29 @@ function requireAuth(to, from, next) {
   } else {
     UserInfoStore.setLoggedIn(true)
 
-    var person_status = undefined
-    if (auth.getMarksterData().person_status != null) {
-      console.log('looks like we have user data')
-      person_status = auth.getMarksterData().person_status
-      console.log(JSON.stringify(auth.getMarksterData()))
-    } else {
-      console.log('looks like we DON\'T have user data, so go get some')
-      auth.getMarksterInfo().then((resp) => {
-        auth.setMarksterInfo(resp.data)
-        console.log(JSON.stringify(auth.getMarksterData()))
-        person_status = resp.data.person_status
-        if (person_status === 'not_registered') {
-          console.log('go to /secure/register')
-          next({
-            path: '/secure/register',
-          })
-        } else if (person_status === 'no_autoenrol') {
-          console.log('go to /secure/purgatory')
-          next({
-            path: '/secure/purgatory',
-          })
-        } else if (person_status === 'known') {
-          console.log('go to next()')
-          next()
-        } else {
-          next({
-            path: '/404',
-          })
-        }
-      }).catch((err) => {
-        console.log(JSON.stringify(err))
-      })
-    }
-    console.log('person_status ' + person_status)
-    if (person_status === 'not_registered') {
-      console.log('go to /secure/register')
-      next({
-        path: '/secure/register',
-      })
-    } else if (person_status === 'no_autoenrol') {
-      console.log('go to /secure/purgatory')
-      next({
-        path: '/secure/purgatory',
-      })
-    } else if (person_status === 'known') {
-      console.log('go to next()')
-      next()
-    } else {
-      next({
-        path: '/404',
-      })
-    }
-
+    console.log('looks like we DON\'T have user data, so go get some')
+    UserInfoApi.getMarksterInfo().then((resp) => {
+      UserInfoStore.setMarksterInfo(resp.data)
+      console.log(JSON.stringify(UserInfoStore.getMarksterInfo()))
+      var person_status = resp.data.person_status
+      if (person_status === 'not_registered') {
+        console.log('go to /secure/register')
+        next({
+          path: '/secure/register',
+        })
+      } else if (person_status === 'no_autoenrol') {
+        console.log('go to /secure/purgatory')
+        next({
+          path: '/secure/purgatory',
+        })
+      } else if (person_status === 'known') {
+        console.log('go to next()')
+        next()
+      } else {
+        next({
+          path: '/404',
+        })
+      }
+    })
   }
 }
