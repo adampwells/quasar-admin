@@ -12,6 +12,8 @@ export default{
     }
     return axios.get(USERINFO_URL, requestData).then(response => {
       return response.data;
+    }).catch((err) => {
+      console.log(JSON.stringify(err))
     });
   }
 }

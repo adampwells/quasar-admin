@@ -4,7 +4,6 @@ import routes from './routes'
 import auth from '../auth'
 import UserInfoStore from '../auth/user-info-store'
 import UserInfoApi from '../auth/user-info-api'
-import userInfoStore from "../auth/user-info-store";
 
 
 /*
@@ -31,12 +30,16 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  console.log(`beforeEach() ${to.path}`)
   if (to.path.startsWith("/secure") && !to.path.includes('/secure/register') && !to.path.includes('/secure/purgatory')) {
+    console.log(`gonna need auth for ${to.path}`)
     requireAuth(to, from, next)
   } else if ((to.path.includes('/secure/register') || to.path.includes('/secure/purgatory')) && !auth.isUserSignedIn()) {
     // in this case they are coming direct to the path, and need to go through login
+    console.log(`gonna need auth for ${to.path}`)
     requireAuth(to, from, next)
   } else {
+    console.log(`no auth for ${to.path}`)
     next()
   }
 })
@@ -44,6 +47,9 @@ router.beforeEach((to, from, next) => {
 export default router
 
 function requireAuth(to, from, next) {
+
+  console.log(`requireAuth() ${to.path}`)
+
   if (!auth.isUserSignedIn()) {
     UserInfoStore.setLoggedIn(false)
     auth.auth.getSession()
@@ -55,18 +61,39 @@ function requireAuth(to, from, next) {
     UserInfoStore.setLoggedIn(true)
 
     var person_status = undefined
-    if (UserInfoStore.getMarksterInfo()) {
+    if (auth.getMarksterData().person_status != null) {
       console.log('looks like we have user data')
-      person_status = UserInfoStore.getMarksterInfo().person_status
+      person_status = auth.getMarksterData().person_status
+      console.log(JSON.stringify(auth.getMarksterData()))
     } else {
       console.log('looks like we DON\'T have user data, so go get some')
-      UserInfoApi.getMarksterInfo().then((resp) => {
-        userInfoStore.setMarksterInfo(resp.data)
+      auth.getMarksterInfo().then((resp) => {
+        auth.setMarksterInfo(resp.data)
+        console.log(JSON.stringify(auth.getMarksterData()))
         person_status = resp.data.person_status
+        if (person_status === 'not_registered') {
+          console.log('go to /secure/register')
+          next({
+            path: '/secure/register',
+          })
+        } else if (person_status === 'no_autoenrol') {
+          console.log('go to /secure/purgatory')
+          next({
+            path: '/secure/purgatory',
+          })
+        } else if (person_status === 'known') {
+          console.log('go to next()')
+          next()
+        } else {
+          next({
+            path: '/404',
+          })
+        }
+      }).catch((err) => {
+        console.log(JSON.stringify(err))
       })
     }
     console.log('person_status ' + person_status)
-    // redirect floaters to a holding page
     if (person_status === 'not_registered') {
       console.log('go to /secure/register')
       next({
