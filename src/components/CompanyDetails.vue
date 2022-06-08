@@ -51,6 +51,7 @@ export default defineComponent({
   name: "CompanyDetails",
   props: {
     company: Object,
+    saveOnEnter: Boolean,
   },
   setup() {
     return {}
@@ -73,19 +74,21 @@ export default defineComponent({
   methods: {
     saveCompany() {
       let self = this
-      companyApi.saveCompanyDetails(self.company).then((result) => {
-        self.$emit('updated', self.company)
-        self.$q.notify({
-          message: 'Company updated',
-          color: 'primary'
+      if (self.saveOnEnter){
+        companyApi.saveCompanyDetails(self.company).then((result) => {
+          self.$emit('updated', self.company)
+          self.$q.notify({
+            message: 'Company updated',
+            color: 'primary'
+          })
+        }).catch((error) => {
+          console.log(error)
+          self.$q.notify({
+            message: error.response.data.message,
+            color: 'accent'
+          })
         })
-      }).catch((error) => {
-        console.log(error)
-        self.$q.notify({
-          message: error.response.data.message,
-          color: 'accent'
-        })
-      })
+      }
     },
 
   },

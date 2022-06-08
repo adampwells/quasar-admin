@@ -5,7 +5,7 @@
         <div class="text-weight-light text-h6">Company Profile</div>
       </q-card-section>
       <q-card-section>
-        <company-details :company="company" />
+        <company-details :save-on-enter="true" :company="company" />
       </q-card-section>
     </q-card>
   </q-page>

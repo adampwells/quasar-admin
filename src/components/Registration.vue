@@ -14,7 +14,7 @@
           icon="shopping_cart"
           active-icon="shopping_cart"
           :done="step > 1"
-          style="height: 500px"
+          style="height: 560px"
         >
           <q-list>
             <q-item tag="label" v-ripple>
@@ -54,9 +54,9 @@
           icon="business"
           active-icon="business"
           :done="step > 2"
-          style="height: 500px"
+          style="height: 560px"
         >
-          <company-details :company="reg.company" @updated="(c) => reg.company = c"/>
+          <company-details :save-on-enter="false" :company="reg.company" @updated="(c) => reg.company = c"/>
         </q-step>
 
         <q-step
@@ -65,7 +65,7 @@
           icon="people"
           active-icon="people"
           :done="step > 3"
-          style="height: 500px"
+          style="height: 560px"
         >
           <div class="text-body2 text-weight-light">The administrator user can create other users who can login to
             Markster.
@@ -79,11 +79,20 @@
           <div class="text-body2 text-weight-light">This app is protected using OAuth provided by Amazon Cognito, and that service is federated with Google so that you can login using your Google identity - <i>as long as it matches the email provided above.</i> Alternately, we can create a user account in Cogito on your behalf using the email above.</div>
           <br>
           <div class="row">
-            <div class="col-2 offset-1"><q-radio v-model="reg.login" val="federated">Login using Google</q-radio></div>
-            <div class="col-2"><q-radio v-model="reg.login" val="password">Generate password</q-radio></div>
+            <div class="col-4 offset-1"><q-radio v-model="reg.login" val="federated">I'll login using my existing Google account.</q-radio></div>
+          </div>
+          <div class="row">
+          <div class="col-1 offset-1"><b>OR</b></div>
+
+          </div>
+          <div class="row vertical-middle">
+            <div class="col-4 offset-1"><q-radio v-model="reg.login" val="password">Create a new account for me with this username:</q-radio></div>
+            <div class="col-4">
+              <q-input label="Username" v-model="reg.administrator.username" outlined @blur="checkUsername" ref="username"></q-input>
+            </div>
           </div>
           <br>
-          <div class="text-body2 text-weight-light">You can allow users to sign up by themselves and we will add them to your account if the email domain matches the one you provide. This is an easy way of giving your whole company access to Markster. </div>
+          <div class="text-body2 text-weight-light">You can allow users to sign up by themselves and we will add them to your account if the email domain matches the one you provide.</div>
           <br>
           <div class="row q-col-gutter-md justify-around">
             <div class="col-4">
@@ -100,7 +109,7 @@
           icon="tune"
           active-icon="tune"
           :done="step > 4"
-          style="height: 500px"
+          style="height: 560px"
         >
           <div class="text-body2 text-weight-light">
             Markster integrates with IP Australia to automate searches and other actions on your behalf. We identify
@@ -137,7 +146,7 @@
           icon="payment"
           active-icon="payment"
           :done="step > 5"
-          style="height: 500px"
+          style="height: 560px"
           v-if="reg.plan != 'plan1'"
         >
           <div class="text-body2 text-weight-light">
@@ -244,9 +253,10 @@ export default defineComponent({
           country: 'Australia',
           postcode: '',
           roles: [],
-          domain: ''
+          domain: '',
         },
         administrator: {
+          username: '',
           first_name: '',
           last_name: '',
           email: '',
@@ -268,6 +278,26 @@ export default defineComponent({
     })
   },
   methods: {
+    checkUsername() {
+      console.log('check username')
+      let self = this
+      regApi.isUsernameAvailable(self.reg.administrator.username).then((result)=>{
+        if (!result.data.data.available) {
+          self.$q.notify({
+            message: "That username is not available. Please choose a unique username with 1 to 128 characters.",
+            color: 'accent'
+          })
+          self.reg.administrator.username = result.data.data.alternative
+          self.$refs.username.focus()
+        }
+      }).catch((error) => {
+        console.log(error)
+        self.$q.notify({
+          message: error.response.data.message,
+          color: 'accent'
+        })
+      })
+    },
     handleStep(){
       let self = this
       if (this.step === 5 || (this.step === 4 && this.reg.plan === 'plan1')) {
