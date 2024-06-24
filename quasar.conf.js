@@ -7,9 +7,12 @@
 // https://quasar.dev/quasar-cli/quasar-conf-js
 
 const { configure } = require('quasar/wrappers');
+let getRepoInfo = require('git-repo-info');
+let git = getRepoInfo();
 
 module.exports = configure(function (ctx) {
   return {
+
     // https://quasar.dev/quasar-cli/supporting-ts
     supportTS: false,
 
@@ -39,7 +42,6 @@ module.exports = configure(function (ctx) {
       // 'themify',
       // 'line-awesome',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
-
       'roboto-font', // optional, you are not bound to it
       'material-icons', // optional, you are not bound to it
     ],
@@ -49,7 +51,11 @@ module.exports = configure(function (ctx) {
       vueRouterMode: 'history', // available values: 'hash', 'history'
 
       env: {
-        API: ctx.dev ? 'http://localhost:8888/v1' : 'https://saas-api.markster.com.au',
+        DEST_ENV:process.env.DEST_ENV,
+        GIT_BRANCH: git.branch,
+        GIT_SHA: git.abbreviatedSha,
+        HEADER_BACKGROUND: process.env.DEST_ENV === 'prod' ? 'bg-primary' : 'bg-red',
+        API: ctx.dev ? 'http://localhost:8888/v1' : (process.env.DEST_ENV === 'prod' ? 'https://saas-api.markster.com.au/v1' : 'https://saas-api-staging.markster.com.au/v1'),
         STRIPE_PUBLISHABLE_KEY: 'pk_test_51KQKrBDUsKs3sdAhUtbgY0Zvw4CMqzQpn2cBAFmZWoxwLe8LlW6oBDCPRvupy5j6eJSpwjnBkS70P1ptahO1C4jX00Wm34ux9N'
       },
 

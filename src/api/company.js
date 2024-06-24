@@ -11,6 +11,9 @@ export default {
     }
     return api.apiCall('get','/secure/company/' + companyId, {})
   },
+  saveCompanyDetails(company) {
+    return api.apiCall('get','/secure/company', company)
+  },
   findPeopleByCompanyContext(companyId) {
     if (!companyId) {
       companyId = auth.getMarksterData().company_id

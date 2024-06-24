@@ -159,7 +159,7 @@ export default defineComponent({
       let self = this
       personApi.upsertUser(self.person).then((result) => {
         self.$q.notify({
-          message: 'Success!',
+          message: 'User updated',
           color: 'primary'
         })
         this.findPeopleByCompanyId(this.companyContextId)
@@ -177,7 +177,7 @@ export default defineComponent({
       let self = this
       personApi.enableDisablePerson(props.row.person_id).then((result) => {
         self.$q.notify({
-          message: 'Success!',
+          message: 'User updated',
           color: 'primary'
         })
         self.people[props.rowIndex].enabled = !self.people[props.rowIndex].enabled

@@ -26,9 +26,11 @@ const routes = [
     path: '/secure',
     component: () => import('layouts/SecureLayout.vue'),
     children: [
-      {path: 'floater', component: () => import('pages/Floater.vue')},
+      {path: 'register', component: () => import('pages/SecureRegister.vue')},
+      {path: 'purgatory', component: () => import('pages/Purgatory.vue')},
       {path: 'dashboard', component: () => import('pages/Dashboard.vue')},
-      {path: 'admin', component: () => import('pages/Admin.vue')},
+
+      {path: 'admin/customers', component: () => import('pages/markster/Customers.vue')},
 
       // admin
       {path: 'admin/userprofile', component: () => import('pages/admin/UserProfile.vue')},

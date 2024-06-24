@@ -2,10 +2,10 @@
   <q-page class="q-pa-sm">
     <q-card flat bordered>
       <q-card-section>
-        <div class="text-weight-light text-h6">Company Details</div>
+        <div class="text-weight-light text-h6">Company Profile</div>
       </q-card-section>
       <q-card-section>
-        <company-details :company="company" />
+        <company-details :save-on-enter="true" :company="company" />
       </q-card-section>
     </q-card>
   </q-page>

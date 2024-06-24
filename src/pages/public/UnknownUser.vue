@@ -1,9 +1,6 @@
 <template>
   <q-page class="q-pa-sm">
-    About Markster GUI
-    Branch:{{branch}}<br>
-    GIT Commit:{{commitHash}}<br>
-    API: {{api}}<br>
+    We don't know you, you have to register your comapny details...
   </q-page>
 </template>
 
@@ -12,7 +9,7 @@ import {defineComponent} from 'vue'
 import {ref} from 'vue'
 
 export default defineComponent({
-  name: "About",
+  name: "UnknownUser",
   setup() {
     return {}
   },

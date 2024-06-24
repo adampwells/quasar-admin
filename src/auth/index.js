@@ -10,14 +10,23 @@ const authData = process.env.DEV ? {
   RedirectUriSignIn: 'http://localhost:8082/login/oauth2/code/cognito',
   RedirectUriSignOut: 'http://localhost:8082/logout',
   UserPoolId: 'ap-southeast-2_dsv4zXtn8'
-} : {
+} : process.env.DEST_ENV === 'prod' ? {
   ClientId: '6f2q5e3mnth4a409hhp3q7e8m3',
   AppWebDomain: 'markster-web.auth.ap-southeast-2.amazoncognito.com',
   TokenScopesArray: ['openid', 'email'],
   RedirectUriSignIn: 'https://saas.markster.com.au/login/oauth2/code/cognito',
   RedirectUriSignOut: 'https://saas.markster.com.au/logout',
   UserPoolId: 'ap-southeast-2_dsv4zXtn8'
-};
+} :
+  {
+    ClientId: '6f2q5e3mnth4a409hhp3q7e8m3',
+    AppWebDomain: 'markster-web.auth.ap-southeast-2.amazoncognito.com',
+    TokenScopesArray: ['openid', 'email'],
+    RedirectUriSignIn: 'https://saas-staging.markster.com.au/login/oauth2/code/cognito',
+    RedirectUriSignOut: 'https://saas-staging.markster.com.au/logout',
+    UserPoolId: 'ap-southeast-2_dsv4zXtn8'
+  }
+;
 
 const auth = new CognitoAuth(authData);
 auth.userhandler = {
@@ -25,7 +34,7 @@ auth.userhandler = {
     UserInfoStore.setLoggedIn(true)
     // we have got a valid Token, but we don't know if we have a valid user
     UserInfoApi.getMarksterInfo().then((result) => {
-      console.log('got markster info: ' + result)
+      console.log('got markster info: ' + JSON.stringify(result.data))
       UserInfoStore.setMarksterInfo(result.data)
       router.push('/secure/dashboard')
     })

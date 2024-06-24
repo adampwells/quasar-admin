@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <!--  <q-layout view="lHh Lpr lFf">-->
-    <q-header bordered>
+    <q-header bordered :class="headerStyle">
       <q-toolbar>
         <q-btn
           flat
@@ -16,6 +16,8 @@
         </q-toolbar-title>
         <q-space/>
         <div class="q-gutter-sm row items-center no-wrap">
+          <q-btn v-if="hasMarksterPermission" round dense flat color="white" icon="info" @click="alert = true">
+          </q-btn>
           <q-btn round dense flat color="white" icon="alarm">
             <q-badge color="red" text-color="white" floating>
               5
@@ -65,14 +67,22 @@
       class="bg-primary text-white"
     >
       <q-list>
-        <q-item v-if="hasMarksterPermission" to="/secure/admin" active-class="q-item-no-link-highlighting" @click="selectedNav = 'admin'" :focused="selectedNav === 'admin'">
-          <q-item-section avatar>
-            <q-icon name="admin_panel_settings"/>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Markster Admin</q-item-label>
-          </q-item-section>
-        </q-item>
+        <q-expansion-item
+          v-if="hasMarksterPermission"
+          icon="admin_panel_settings"
+          label="Markster Admin"
+        >
+          <q-list class="q-pl-lg">
+            <q-item v-if="hasMarksterPermission" to="/secure/admin/customers" active-class="q-item-no-link-highlighting" @click="selectedNav = 'admin'" :focused="selectedNav === 'admin'">
+              <q-item-section avatar>
+                <q-icon name="business"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Customers</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-expansion-item>
         <q-item to="/secure/dashboard" active-class="q-item-no-link-highlighting" @click="selectedNav = 'dashboard'" :focused="selectedNav === 'dashboard'">
           <q-item-section avatar>
             <q-icon name="dashboard"/>
@@ -257,11 +267,38 @@
       </router-view>
     </q-page-container>
   </q-layout>
+  <q-dialog v-model="alert">
+    <q-card>
+      <q-card-section>
+        <div class="text-h6">Version Information</div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        <div class="text-h6">GUI Info</div>
+        <div class="text-subtitle2">Branch: {{guiBranch}}</div>
+        <div class="text-subtitle2">Commit: {{guiCommitHash}}</div>
+      </q-card-section>
+      <q-card-section class="q-pt-none">
+        <div class="text-h6">URL: {{apiServer}}</div>
+      </q-card-section>
+      <q-card-section class="q-pt-none">
+        <div class="text-h6">API Info</div>
+        <div class="text-subtitle2">Branch: {{apiBranch}}</div>
+        <div class="text-subtitle2">Commit: {{apiCommitHash}}</div>
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="OK" color="primary" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>
 import EssentialLink from 'components/EssentialLink.vue'
 import auth from '../auth'
+import versionApi from '../api/version'
+
 
 import {defineComponent, ref} from 'vue'
 
@@ -293,14 +330,26 @@ export default defineComponent({
       hasPreviewPermission: false,
       hasAdminPermission: false,
       hasMarksterPermission: false,
+      headerStyle: process.env.HEADER_BACKGROUND,
+      alert: false,
+      guiCommitHash: process.env.GIT_SHA,
+      apiCommitHash: '',
+      apiBranch:'',
+      guiBranch: process.env.GIT_BRANCH,
+      apiServer: process.env.API,
     }
   },
 
   mounted() {
+    let self = this
     this.userInfo = auth.getMarksterData()
-    if (this.userInfo.permissions.includes('preview')) this.hasPreviewPermission = true;
-    if (this.userInfo.permissions.includes('admin')) this.hasAdminPermission = true;
-    if (this.userInfo.permissions.includes('markster')) this.hasMarksterPermission = true;
+    if (this.userInfo.permissions && this.userInfo.permissions.includes('preview')) this.hasPreviewPermission = true;
+    if (this.userInfo.permissions && this.userInfo.permissions.includes('admin')) this.hasAdminPermission = true;
+    if (this.userInfo.permissions && this.userInfo.permissions.includes('markster')) this.hasMarksterPermission = true;
+    versionApi.findApiVersionInfo().then(d => {
+      self.apiCommitHash = d.data.data.version
+      self.apiBranch = d.data.data.branch
+    })
   }
 
 })

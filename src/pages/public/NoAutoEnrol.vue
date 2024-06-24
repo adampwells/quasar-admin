@@ -1,9 +1,7 @@
 <template>
   <q-page class="q-pa-sm">
-    About Markster GUI
-    Branch:{{branch}}<br>
-    GIT Commit:{{commitHash}}<br>
-    API: {{api}}<br>
+    You company is registered, but the account is set up so that people can't auto-enrol based on the same email domain.
+    Please contact the person in your company that registered with Markster.
   </q-page>
 </template>
 
@@ -12,7 +10,7 @@ import {defineComponent} from 'vue'
 import {ref} from 'vue'
 
 export default defineComponent({
-  name: "About",
+  name: "NoAutoEnrol",
   setup() {
     return {}
   },

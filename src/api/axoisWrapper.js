@@ -2,16 +2,12 @@ import axios from 'axios'
 import auth from '../auth'
 import router from '../router'
 
-const publicpaths = [
-  '/public/stripe/clientSecret',
-  '/public/username',
-  '/public/registration',
-]
-
 export default {
   apiCall (method, path, data) {
 
-    if (!auth.isUserSignedIn() && !publicpaths.includes(path)) {
+    console.log(`api call path ${path}`)
+
+    if (!auth.isUserSignedIn() && !path.includes('/public')) {
       router.push('/login')
       return
     }
